@@ -23,6 +23,7 @@ contract MemeMarket {
     uint[] public validMemeIndices;
     bool[] public isValid;
     mapping(address => uint256) public balances;
+    mapping(address => bool) public voteExists;
     mapping(address => Vote) public lastVote;
     mapping(address => mapping(uint => uint)) public shares;
     mapping(address => mapping(uint => uint)) public forSale;
@@ -68,11 +69,10 @@ contract MemeMarket {
 
     function getVotingOptions() public returns (string memory a, string memory b, string memory c, string memory d){
         require(validMemeIndices.length >= 4);
-        if(lastVote[msg.sender].hasVoted || lastVote[msg.sender].memeIndices.length != 4){
-            lastVote[msg.sender].memeIndices.length = 0;
-            for(int i=0;i<4;i++){
-                lastVote[msg.sender].memeIndices.push(0);
-            }
+        if(!voteExists[msg.sender]){
+            uint[] memory fourValues = new uint[](4);
+            lastVote[msg.sender] = Vote(fourValues, false, 0);
+            voteExists[msg.sender] = true;
 
             uint[] memory usableMemes = validMemeIndices;
             for(uint v=0;v<4;v++){
@@ -89,16 +89,17 @@ contract MemeMarket {
                 usableMemes = newUsableMemes;
             }
         }
-        string ret0 = memes[lastVote[msg.sender].memeIndices[0]].image;
-        string ret1 = memes[lastVote[msg.sender].memeIndices[1]].image;
-        string ret2 = memes[lastVote[msg.sender].memeIndices[2]].image;
-        string ret3 = memes[lastVote[msg.sender].memeIndices[3]].image;
+        string memory ret0 = memes[lastVote[msg.sender].memeIndices[0]].image;
+        string memory ret1 = memes[lastVote[msg.sender].memeIndices[1]].image;
+        string memory ret2 = memes[lastVote[msg.sender].memeIndices[2]].image;
+        string memory ret3 = memes[lastVote[msg.sender].memeIndices[3]].image;
         return (
             ret0, ret1, ret2, ret3
         );
     }
 
     function vote(uint votedMeme) public {
+        voteExists[msg.sender] = false;
         lastVote[msg.sender].hasVoted = true;
 
         require(lastVote[msg.sender].hasVoted == false);
