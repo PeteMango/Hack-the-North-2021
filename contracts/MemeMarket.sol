@@ -70,9 +70,10 @@ contract MemeMarket {
         require(validMemeIndices.length >= 4);
         if(lastVote[msg.sender].hasVoted || lastVote[msg.sender].memeIndices.length != 4){
             lastVote[msg.sender].memeIndices.length = 0;
-            while(lastVote[msg.sender].memeIndices.length == 0){
+            for(int i=0;i<4;i++){
                 lastVote[msg.sender].memeIndices.push(0);
             }
+
             uint[] memory usableMemes = validMemeIndices;
             for(uint v=0;v<4;v++){
                 uint chosenIndex = (uint(keccak256(abi.encodePacked(block.timestamp))) % usableMemes.length);
