@@ -77,22 +77,27 @@ App = {
         });
         i++;
       }
+      loadSellAssets();
 
       // Load shares for sale
       storeAssets = [];
-      const sharesForSale = await instance.uniqueSharesForSale.call();
-      i = 0;
-      for (const idx of sharesForSale) {
-        meme = await instance.memes.call(idx.toString());
-        amountStaked = await instance.amountStaked.call(idx.toString());
-        userAssets.push({
-          link: meme[1],
-          name: 'Meme uwu',
-          stats: amountStaked + ' shares owned @ ' + web3.fromWei(meme[2].toString(), 'ether') + 'M3M',
-          id: 'sell' + i
-        });
-        i++;
+      const allUsers = await instance.allUsers.call();
+      for (const user of allUsers) {
+        const sharesForSale = await instance.uniqueSharesForSale.call(user);
+        i = 0;
+        for (const idx of sharesForSale) {
+          meme = await instance.memes.call(idx.toString());
+          amountForSale = await instance.amountForSale.call(idx.toString());
+          storeAssets.push({
+            link: meme[1],
+            name: 'Meme uwu',
+            stats: amountForSale + ' shares listed @ ' + web3.fromWei(meme[2].toString(), 'ether') + 'M3M',
+            id: 'buy' + i
+          });
+          i++;
+        }
       }
+      loadBuyAssets();
 
     } catch(err) {
       console.warn(err);
