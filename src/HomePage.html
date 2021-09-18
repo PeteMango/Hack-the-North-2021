@@ -8,9 +8,38 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <!-- need this script for lightboxes-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Home</title>
 </head>
-
+<style>
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+    .tab button.active {
+        background-color: #ccc;
+    }
+    .tab button:hover {
+        background-color: #ddd;
+    }
+</style>
 <body>
 <nav id="nav"></nav>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -20,57 +49,101 @@
 <br />
 
 <div class="container">
-    <a id="trendPage"></a>
+    <div class="tab">
+        <button class="tablink" onclick="openTab(event, 'trending')" id="defaultOpen">Trending</button>
+        <button class="tablink" onclick="openTab(event, 'profile')">Your Profile</button>
+    </div>
+
+    <div id="trending" class="tabcontent">
+        <a id="trendPage"></a>
+    </div>
+
+    <div id="profile" class="tabcontent">
+        <a id="profilePage"></a>
+    </div>
 </div>
 
 <script>
-    let trendData = [
-        {
-            "link": "https://static.boredpanda.com/blog/wp-content/uploads/2021/05/fb_image_60ae515b06705__700.jpg",
-            "name": "penguin!!!",
-            "stats": "super awesome",
-            "id": "trend1"
-        },
-        {
-            "link": "https://i1.wp.com/anitrendz.net/news/wp-content/uploads/2021/04/Winter-2021-Best-Girls.png",
-            "name": "best waifus",
-            "stats": ":)",
-            "id": "trend2"
-        },
-        {
-            "link": "https://i0.wp.com/myotakuworld.com/wp-content/uploads/2020/06/cute-anime-girls-cover-1.jpg?fit=1920%2C1080&ssl=1",
-            "name": "quintuplets!!!",
-            "stats": "5 > 1",
-            "id": "trend3"
-        },
-        {
-            "link": "https://wallpaperboat.com/wp-content/uploads/2020/06/03/42361/aesthetic-anime-01.jpg",
-            "name": "scenery!!!",
-            "stats": "poggers",
-            "id": "trend4"
-        },
-        {
-            "link": "https://wallshub.net/wp-content/uploads/2021/05/Gojo-Satoru-Mobile-Wallpaper.jpg",
-            "name": "gojo sensei?",
-            "stats": "simp",
-            "id": "trend5"
-        },
-        {
-            "link": "https://wallpaper.dog/large/17022708.png",
-            "name": "kimi no wa?",
-            "stats": "saddddddd romance",
-            "id": "trend6"
-        },
-        {
-            "link": "https://media-exp1.licdn.com/dms/image/C4E1BAQHd5EgZUn-Cpw/company-background_10000/0/1605462167150?e=2159024400&v=beta&t=_fwEJRczBjh_1N_ilG3a8zCW29Xn6eFwwmjBzNhw1Go",
-            "name": "bayviewwww",
-            "stats": "lets goooo",
-            "id": "trend7"
-        },
-    ];
+    function openTab(evt, tabName) {
+        let tabcontent = document.getElementsByClassName("tabcontent");
+        for(let i=0; i<tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
 
-    document.getElementById("trendPage").innerHTML = getHTMLGridString(trendData);
+        let tablinks = document.getElementsByClassName("tablink");
+        for(let i=0; i<tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
 
+        if(tabName === "trending") {
+            loadTrendingPage();
+        }
+        else {
+            loadProfilePage();
+        }
+    }
+
+    function loadTrendingPage() {
+        let trendData = [
+            {
+                "link": "https://static.boredpanda.com/blog/wp-content/uploads/2021/05/fb_image_60ae515b06705__700.jpg",
+                "name": "penguin!!!",
+                "description": "super awesome",
+                "stats": "sold 42 times",
+                "id": "trend1"
+            },
+            {
+                "link": "https://i1.wp.com/anitrendz.net/news/wp-content/uploads/2021/04/Winter-2021-Best-Girls.png",
+                "name": "best waifus",
+                "description": ":)",
+                "stats": "sold 69 times",
+                "id": "trend2"
+            },
+            {
+                "link": "https://i0.wp.com/myotakuworld.com/wp-content/uploads/2020/06/cute-anime-girls-cover-1.jpg?fit=1920%2C1080&ssl=1",
+                "name": "quintuplets!!!",
+                "description": "5 > 1",
+                "stats": "sold 2 times",
+                "id": "trend3"
+            },
+            {
+                "link": "https://wallpaperboat.com/wp-content/uploads/2020/06/03/42361/aesthetic-anime-01.jpg",
+                "name": "scenery!!!",
+                "description": "poggers",
+                "stats": "sold 1 time",
+                "id": "trend4"
+            },
+            {
+                "link": "https://wallshub.net/wp-content/uploads/2021/05/Gojo-Satoru-Mobile-Wallpaper.jpg",
+                "name": "gojo sensei?",
+                "description": "simp",
+                "stats": "sold 8 times",
+                "id": "trend5"
+            },
+            {
+                "link": "https://wallpaper.dog/large/17022708.png",
+                "name": "kimi no wa?",
+                "description": "saddddddd romance",
+                "stats": "sold 6 times",
+                "id": "trend6"
+            },
+            {
+                "link": "https://media-exp1.licdn.com/dms/image/C4E1BAQHd5EgZUn-Cpw/company-background_10000/0/1605462167150?e=2159024400&v=beta&t=_fwEJRczBjh_1N_ilG3a8zCW29Xn6eFwwmjBzNhw1Go",
+                "name": "bayviewwww",
+                "description": "lets goooo",
+                "stats": "sold 2 times",
+                "id": "trend7"
+            },
+        ];
+
+        document.getElementById("trendPage").innerHTML = getHTMLGridString(trendData);
+    }
+
+    function loadProfilePage() {
+
+    }
     function getHTMLGridString(data) {
         let rowCnt = 0;
         let colCnt = 0;
@@ -92,7 +165,7 @@
 
             htmlString += "<div class=\"card-body\">";
             htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
-            htmlString += "<p class=\"card-text\">" + data[i].stats + "</p>";
+            htmlString += "<p class=\"card-text\">" + data[i].description + "</p>";
             htmlString += "<button class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#" + data[i].id + "\">View</button>";
             htmlString += "</div>";
             htmlString += "</div>";
@@ -117,7 +190,7 @@
     function createModalHTMLString(meme) {
         let res = "";
         res += "<div class=\"modal fade\" id=\"" + meme.id + "\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">";
-        res += "<div class=\"modal-dialog modal-dialog-centered modal-dialog-scrollable\">";
+        res += "<div class=\"modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable\">";
         res += "<div class=\"modal-content\">";
         res += "<div class=\"modal-header\">";
         res += "<h5 class=\"modal-title\" id=\"modalLabel\">" + meme.name + "</h5>";
@@ -125,12 +198,16 @@
         res += "</div>";
         res += "<div class=\"modal-body\" style=\"margin-left: auto; margin-right: auto;\">";
         res += "<img src=\"" + meme.link + "\" class=\"img-fluid\" alt=\"\">";
+        res += "<h5>Information</h5>";
+        res += "<p>" + meme.stats + "</p>";
         res += "</div>";
         res += "</div>";
         res += "</div>";
         res += "</div>";
         return res;
     }
+
+    document.getElementById("defaultOpen").click();
 </script>
 
 <script src="js/web3.min.js"></script>
