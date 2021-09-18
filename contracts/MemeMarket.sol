@@ -10,8 +10,7 @@ contract MemeMarket {
 
     struct Vote{
         uint[] memeIndices;
-        bool hasVoted;
-        uint vote;
+        uint happyCompilerNoises;
     }
 
     string worked;
@@ -23,6 +22,7 @@ contract MemeMarket {
     uint[] public validMemeIndices;
     bool[] public isValid;
     mapping(address => uint256) public balances;
+    mapping(address => bool) public voteExists;
     mapping(address => Vote) public lastVote;
     mapping(address => mapping(uint => uint)) public shares;
     mapping(address => mapping(uint => uint)) public forSale;
@@ -68,11 +68,10 @@ contract MemeMarket {
 
     function getVotingOptions() public returns (string memory a, string memory b, string memory c, string memory d){
         require(validMemeIndices.length >= 4);
-        if(lastVote[msg.sender].hasVoted || lastVote[msg.sender].memeIndices.length != 4){
-            lastVote[msg.sender].memeIndices.length = 0;
-            for(int i=0;i<4;i++){
-                lastVote[msg.sender].memeIndices.push(0);
-            }
+        if(!voteExists[msg.sender]){
+            uint[] memory fourValues = new uint[](4);
+            lastVote[msg.sender] = Vote(fourValues,0);
+            voteExists[msg.sender] = true;
 
             uint[] memory usableMemes = validMemeIndices;
             for(uint v=0;v<4;v++){
@@ -89,24 +88,22 @@ contract MemeMarket {
                 usableMemes = newUsableMemes;
             }
         }
+        string memory ret0 = memes[lastVote[msg.sender].memeIndices[0]].image;
+        string memory ret1 = memes[lastVote[msg.sender].memeIndices[1]].image;
+        string memory ret2 = memes[lastVote[msg.sender].memeIndices[2]].image;
+        string memory ret3 = memes[lastVote[msg.sender].memeIndices[3]].image;
         return (
-            memes[lastVote[msg.sender].memeIndices[0]].image,
-            memes[lastVote[msg.sender].memeIndices[1]].image,
-            memes[lastVote[msg.sender].memeIndices[2]].image,
-            memes[lastVote[msg.sender].memeIndices[3]].image
+            ret0, ret1, ret2, ret3
         );
     }
 
     function vote(uint votedMeme) public {
-        lastVote[msg.sender].hasVoted = true;
-
-        require(lastVote[msg.sender].hasVoted == false);
-        lastVote[msg.sender].vote = votedMeme;
+        require(voteExists[msg.sender] == true);
 
         memes[lastVote[msg.sender].memeIndices[votedMeme]].price += voteValue-voterPayout;
         memes[lastVote[msg.sender].memeIndices[votedMeme]].history.push(memes[lastVote[msg.sender].memeIndices[votedMeme]].price);
-        address payable user = address(uint160(msg.sender));
-        balances[user] += voterPayout;
+        balances[msg.sender] += voterPayout;
+
         for(uint i=0;i<4;i++){
             if(i != votedMeme){
                 uint memeIndex = lastVote[msg.sender].memeIndices[i];
@@ -126,6 +123,7 @@ contract MemeMarket {
                 }
             }
         }
+        voteExists[msg.sender] = false;
     }
 
     function deposit() public payable {

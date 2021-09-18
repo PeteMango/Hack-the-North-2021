@@ -49,25 +49,42 @@ App = {
       // Kind of a messy solution but works for now
       if (window.location.pathname === '/VotePage.html') {
         return App.loadVotingOptions();
+      } else if (window.location.pathname === '/HomePage.html') {
+        return App.loadAssets();
       }
     });
   },
 
-  loadVotingOptions: function() {
-    App.contracts.MemeMarket.deployed().then(function(instance) {
-      memeMarketInstance = instance;
-      return memeMarketInstance.getVotingOptions({from: App.account});
-    }).then(function(img0, img1, img2, img3) {
-      $('#meme0').attr('src', img0);
-      $('#meme1').attr('src', img1);
-      $('#meme2').attr('src', img2);
-      $('#meme3').attr('src', img3);
-    }).catch(function(error) {
-      console.warn(error);
-    });
+  loadAssets: async function() {
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      const balance = await instance.balances.call(App.account);
+      console.log(balance);
+    } catch(err) {
+      console.warn(err);
+    }
   },
 
-  handleUploadMeme: function() {
+
+  loadVotingOptions: async function() {
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      await instance.getVotingOptions({from: App.account});
+      const memeurls = await instance.getVotingOptions.call({from: App.account});
+      alert(memeurls);
+      // Messy but who cares
+      for (var i = 0; i < 4; i++) {
+        $('#meme' + i).attr('src', memeurls[i]);
+        voteData[i].link = memeurls[i];
+      }
+      document.getElementById("voteTable").innerHTML = getHTMLTableString(voteData);
+      refreshSelection();
+    } catch(err) {
+      console.warn(err);
+    }
+  },
+
+  handleUploadMeme: async function() {
     console.log('Submit clicked');
     var memeurl = $('#memeurl').val();
     if (memeurl.substr(0, 8) != "https://") {
@@ -75,64 +92,47 @@ App = {
       return;
     }
 
-    var memeMarketInstance;
-    App.contracts.MemeMarket.deployed().then(function(instance) {
-      memeMarketInstance = instance;
-      return memeMarketInstance.uploadMeme(memeurl, {from: App.account});
-    }).then(function() {
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      await instance.uploadMeme(memeurl, {from: App.account});
       window.alert("Your meme has been submitted!")
-    }).catch(function(error) {
-      console.warn(error);
-    });
+    } catch(err) {
+      console.warn(err);
+    }
   },
 
-  handleVote: function(num) {
+  handleVote: async function(num) {
     console.log('Voted for meme #' + num);
 
-    var memeMarketInstance;
-    App.contracts.MemeMarket.deployed().then(function(instance) {
-      memeMarketInstance = instance;
-      return memeMarketInstance.vote(num, {from: App.account});
-    }).then(function() {
-      window.alert("Your vote has been cast!")
-    }).catch(function(error) {
-      console.warn(error);
-    });
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      await instance.vote(num, {from: App.account});
+    } catch(err) {
+      console.warn(err);
+    }
   },
 
-  handleUploadETH: function() {
-    var amount = parseInt($('#eth_id').val());
+  handleUploadETH: async function() {
+    var amount = parseFloat($('#eth_id').val());
 
-    var memeMarketInstance;
-    App.contracts.MemeMarket.deployed().then(function(instance) {
-      memeMarketInstance = instance;
-      return memeMarketInstance.deposit({from: App.account, value: web3.toWei(amount, 'ether') });
-    }).catch(function(error) {
-      console.warn(error);
-    });
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      await instance.deposit({from: App.account, value: web3.toWei(amount, 'ether') });
+    } catch(err) {
+      console.warn(err);
+    }
   },
 
-  handleCashOutETH: function() {
+  handleCashOutETH: async function() {
     var amount = $('#m3m_id').val();
 
-    var memeMarketInstance;
-    App.contracts.MemeMarket.deployed().then(function(instance) {
-      memeMarketInstance = instance;
-      return memeMarketInstance.withdraw(web3.toWei(amount, 'ether'), {from: App.account});
-    }).catch(function(error) {
-      console.warn(error);
-    });
-  },
-
-  getTokens: function() {
-    var memeMarketInstance;
-    App.contracts.MemeMarket.deployed().then(function(instance) {
-      memeMarketInstance = instance;
-      return memeMarketInstance.withdraw(amount, {from: App.account});
-    }).catch(function(error) {
-      console.warn(error);
-    });
-  },
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      await instance.withdraw(web3.toWei(amount, 'ether'), {from: App.account});
+    } catch(err) {
+      console.warn(err);
+    }
+  }
 };
 
 $(function() {

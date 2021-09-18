@@ -10,87 +10,181 @@
   <title>Vote On Memes</title>
 
   <!-- FIXME: Make bootstrap stuff consistent -->
-
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <!-- need this script for lightboxes-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <nav id="nav"></nav>
-  <div
-    style="background-image: url(https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80);">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <h1 class="text-center">Vote on one of the memes below!</h1>
-          <p class="text-center">Click on one of the images to vote</p>
-          <hr />
-          <br />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script>
+    $('#nav').load('Navbar.html');
+  </script>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12" style="align-content: center">
+        <h1 class="text-center">Vote on one of the memes below!</h1>
+        <p class="text-center">Select one of the images to vote</p>
+        <div class="text-center">
+          <button class= "btn btn-primary" id="voteButton">Vote</button>
         </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row form-group">
-        <div class="col-lg-6 mt-4">
-          <div class="card">
-            <div class="embed-responsive embed-responsive-1by1">
-              <img id='meme0' src="https://i.pinimg.com/originals/df/c7/4b/dfc74b6867617fc8220fddb0efc9d916.jpg"
-                class="embed-responsive-item" style="object-fit: cover;" alt="" onclick="App.handleVote(0)">
-            </div>
-            <div class="card-body">
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 mt-4">
-          <div class="card">
-            <div class="embed-responsive embed-responsive-1by1">
-              <img id='meme1' src="https://i.redd.it/j2ink51mnxz51.jpg" class="embed-responsive-item" style="object-fit: cover;"
-                alt="" onclick="App.handleVote(1)">
-            </div>
-            <div class="card-body">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row form-group">
-        <div class="col-lg-6 mt-4">
-          <div class="card">
-            <div class="embed-responsive embed-responsive-1by1">
-              <img id='meme2' src="https://c4.wallpaperflare.com/wallpaper/145/523/587/cute-anime-girl-wallpaper-preview.jpg"
-                class="embed-responsive-item" style="object-fit: cover;" alt="" onclick="App.handleVote(2)">
-            </div>
-            <div class="card-body">
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 mt-4">
-          <div class="card">
-            <div class="embed-responsive embed-responsive-1by1">
-              <img id='meme3' src="https://i.pinimg.com/736x/49/e2/58/49e2589c9539258ade7d93709c7299fa.jpg"
-                class="embed-responsive-item" style="object-fit: cover;" alt="" onclick="App.handleVote(3)">
-            </div>
-            <div class="card-body">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-
+        <hr />
+        <br />
       </div>
     </div>
   </div>
 
+  <div class="container">
+    <a id="voteTable"></a>
+    <a id="voteModal"></a>
+  </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script>
-      $('#nav').load('Navbar.html');
+
+    let voteData = [
+      {
+        "link": "https://i.pinimg.com/originals/df/c7/4b/dfc74b6867617fc8220fddb0efc9d916.jpg",
+        "id": "meme0",
+        "name": "Meme #1"
+      },
+      {
+        "link": "https://i.redd.it/j2ink51mnxz51.jpg",
+        "id": "meme1",
+        "name": "Meme #2"
+      },
+      {
+        "link": "https://c4.wallpaperflare.com/wallpaper/145/523/587/cute-anime-girl-wallpaper-preview.jpg",
+        "id": "meme2",
+        "name": "Meme #3"
+      },
+      {
+        "link": "https://i.pinimg.com/736x/49/e2/58/49e2589c9539258ade7d93709c7299fa.jpg",
+        "id": "meme3",
+        "name": "Meme #4"
+      },
+    ];
+
+    document.getElementById("voteTable").innerHTML = getHTMLTableString(voteData);
+    refreshSelection();
+
+    function getHTMLTableString(data) {
+      let rowCnt = 0; // 2 memes per row
+      let htmlString = "<table class=\"table\"><tr>";
+
+      let htmlModalString = "";
+      for(let i=0; i<data.length; i++) {
+
+        htmlString += "<td><div class=\"card\" id=\"" + data[i].id + "Border\">";
+        htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" " + "id= \"" + data[i].id + "\"" +
+                "style=\"width: 40vw; height: 50vh; margin-left: auto; margin-right: auto; object-fit: cover;\">";
+        htmlString += "</div>";
+        htmlString += "</td>";
+        rowCnt++;
+        htmlModalString += createModalHTMLString(data[i]);
+        if(rowCnt === 2) { // 3 memes per row
+          rowCnt = 0;
+          htmlString += "</tr>"; // close the row
+          if(i !== data.length-1) { // if this isnt the last item
+            htmlString += "<tr>"; // should create more rows
+          }
+        }
+      }
+      htmlString += "</table>";
+      htmlString += htmlModalString;
+      return htmlString;
+    }
+
+    function createModalHTMLString(meme) {
+      let res = "";
+      res += "<div class=\"modal fade\" id=\"" + meme.id + "Modal\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">";
+      res += "<div class=\"modal-dialog modal-dialog-centered modal-dialog-scrollable\">";
+      res += "<div class=\"modal-content\">";
+      res += "<div class=\"modal-header\">";
+      res += "<h5 class=\"modal-title\" id=\"modalLabel\">" + meme.name + "</h5>";
+      res += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>";
+      res += "</div>";
+      res += "<div class=\"modal-body\" style=\"margin-left: auto; margin-right: auto;\">";
+      res += "<img src=\"" + meme.link + "\" class=\"img-fluid\">"
+      res += "</div>";
+      res += "</div>";
+      res += "</div>";
+      res += "</div>";
+      return res;
+    }
+
+
+    function refreshSelection() {
+      let imageSelected = -1;
+
+      $('#voteButton').prop('disabled', true);
+
+      document.getElementById("voteButton").addEventListener("click", function () {
+        if(imageSelected !== -1) {
+          App.handleVote(imageSelected);
+          //console.log(imageSelected);
+        }
+      });
+
+      document.getElementById("meme0").addEventListener("click", function () {
+        imageSelected = 0;
+        console.log("single");
+        $('#voteButton').prop('disabled', false);
+      });
+
+      document.getElementById("meme0").addEventListener("dblclick", function () {
+        $('#meme0Modal').modal('show');
+        imageSelected = 0 ;
+      });
+
+      document.getElementById("meme1").addEventListener("click", function () {
+        imageSelected = 1;
+        console.log("single");
+        $('#voteButton').prop('disabled', false);
+      });
+
+      document.getElementById("meme1").addEventListener("dblclick", function () {
+        $('#meme1Modal').modal('show');
+      });
+
+      document.getElementById("meme2").addEventListener("click", function () {
+        imageSelected = 2;
+        console.log("single");
+        $('#voteButton').prop('disabled', false);
+      });
+
+      document.getElementById("meme2").addEventListener("dblclick", function () {
+        $('#meme2Modal').modal('show');
+      });
+
+      document.getElementById("meme3").addEventListener("click", function () {
+        imageSelected = 3;
+        console.log("single");
+        $('#voteButton').prop('disabled', false);
+      });
+
+      document.getElementById("meme3").addEventListener("dblclick", function () {
+        $('#meme3Modal').modal('show');
+      });
+
+      document.getElementById("voteTable").addEventListener("click", function () {
+        let id = "#meme" + String(imageSelected) + "Border";
+        $(id).css({'border-color': '#0d6efd', 'border-width': 'medium'});
+        for(let otherImage=0; otherImage<4; otherImage++) {
+          if(otherImage !== imageSelected) {
+            let tmp = "#meme" + String(otherImage) + "Border";
+            $(tmp).css({'border-color': 'rgba(0, 0, 0, 0.125)', 'border-radius': '.25rem'});
+          }
+        }
+      });
+    }
   </script>
 
-  <script src="js/web3.min.js"></script>
-  <script src="js/truffle-contract.js"></script>
-  <script src="js/app.js"></script>
+
+<script src="js/web3.min.js"></script>
+<script src="js/truffle-contract.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 
