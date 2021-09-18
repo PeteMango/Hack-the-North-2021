@@ -115,18 +115,18 @@
       return res;
     }
 
+    var imageSelected = -1;
+    document.getElementById("voteButton").addEventListener("click", function () {
+      if(imageSelected !== -1) {
+        App.handleVote(imageSelected);
+      }
+    });
+
 
     function refreshSelection() {
-      let imageSelected = -1;
+      imageSelected = -1;
 
       $('#voteButton').prop('disabled', true);
-
-      document.getElementById("voteButton").addEventListener("click", function () {
-        if(imageSelected !== -1) {
-          App.handleVote(imageSelected);
-          //console.log(imageSelected);
-        }
-      });
 
       document.getElementById("meme0").addEventListener("click", function () {
         imageSelected = 0;

@@ -79,20 +79,20 @@ App = {
       }
 
       // Load shares for sale
-      // storeAssets = [];
-      // const sharesForSale = await instance.uniqueSharesForSale.call();
-      // i = 0;
-      // for (const idx of sharesForSale) {
-      //   meme = await instance.memes.call(idx.toString());
-      //   amountStaked = await instance.amountStaked.call(idx.toString());
-      //   userAssets.push({
-      //     link: meme[1],
-      //     name: 'Meme uwu',
-      //     stats: amountStaked + ' shares owned @ ' + web3.fromWei(meme[2].toString(), 'ether') + 'M3M',
-      //     id: 'sell' + i
-      //   });
-      //   i++;
-      // }
+      storeAssets = [];
+      const sharesForSale = await instance.uniqueSharesForSale.call();
+      i = 0;
+      for (const idx of sharesForSale) {
+        meme = await instance.memes.call(idx.toString());
+        amountStaked = await instance.amountStaked.call(idx.toString());
+        userAssets.push({
+          link: meme[1],
+          name: 'Meme uwu',
+          stats: amountStaked + ' shares owned @ ' + web3.fromWei(meme[2].toString(), 'ether') + 'M3M',
+          id: 'sell' + i
+        });
+        i++;
+      }
 
     } catch(err) {
       console.warn(err);
