@@ -47,7 +47,9 @@
     $('#nav').load('Navbar.html');
 </script>
 <br />
-
+<div class="container">
+    <h1 id="pageTitle"></h1>
+</div>
 <div class="container">
     <div class="tab">
         <button class="tablink" onclick="openTab(event, 'trending')" id="defaultOpen">Trending</button>
@@ -61,6 +63,7 @@
     <div id="profile" class="tabcontent">
         <a id="profilePage"></a>
     </div>
+    <br />
 </div>
 
 <script>
@@ -79,9 +82,11 @@
 
         if(tabName === "trending") {
             loadTrendingPage();
+            document.getElementById("pageTitle").innerText = "Trending Memes";
         }
         else {
             loadProfilePage();
+            document.getElementById("pageTitle").innerText = "Profile";
         }
     }
 
