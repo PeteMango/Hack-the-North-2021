@@ -2,25 +2,140 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-  <title>Home</title>
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- need this script for lightboxes-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <title>Home</title>
 </head>
 
 <body>
-  <nav id="nav"></nav>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script>
+<nav id="nav"></nav>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
     $('#nav').load('Navbar.html');
-  </script>
+</script>
+<br />
 
-  <script src="js/web3.min.js"></script>
-  <script src="js/truffle-contract.js"></script>
-  <script src="js/app.js"></script>
+<div class="container">
+    <a id="trendPage"></a>
+</div>
+
+<script>
+    let trendData = [
+        {
+            "link": "https://static.boredpanda.com/blog/wp-content/uploads/2021/05/fb_image_60ae515b06705__700.jpg",
+            "name": "penguin!!!",
+            "stats": "super awesome",
+            "id": "trend1"
+        },
+        {
+            "link": "https://i1.wp.com/anitrendz.net/news/wp-content/uploads/2021/04/Winter-2021-Best-Girls.png",
+            "name": "best waifus",
+            "stats": ":)",
+            "id": "trend2"
+        },
+        {
+            "link": "https://i0.wp.com/myotakuworld.com/wp-content/uploads/2020/06/cute-anime-girls-cover-1.jpg?fit=1920%2C1080&ssl=1",
+            "name": "quintuplets!!!",
+            "stats": "5 > 1",
+            "id": "trend3"
+        },
+        {
+            "link": "https://wallpaperboat.com/wp-content/uploads/2020/06/03/42361/aesthetic-anime-01.jpg",
+            "name": "scenery!!!",
+            "stats": "poggers",
+            "id": "trend4"
+        },
+        {
+            "link": "https://wallshub.net/wp-content/uploads/2021/05/Gojo-Satoru-Mobile-Wallpaper.jpg",
+            "name": "gojo sensei?",
+            "stats": "simp",
+            "id": "trend5"
+        },
+        {
+            "link": "https://wallpaper.dog/large/17022708.png",
+            "name": "kimi no wa?",
+            "stats": "saddddddd romance",
+            "id": "trend6"
+        },
+        {
+            "link": "https://media-exp1.licdn.com/dms/image/C4E1BAQHd5EgZUn-Cpw/company-background_10000/0/1605462167150?e=2159024400&v=beta&t=_fwEJRczBjh_1N_ilG3a8zCW29Xn6eFwwmjBzNhw1Go",
+            "name": "bayviewwww",
+            "stats": "lets goooo",
+            "id": "trend7"
+        },
+    ];
+
+    document.getElementById("trendPage").innerHTML = getHTMLGridString(trendData);
+
+    function getHTMLGridString(data) {
+        let rowCnt = 0;
+        let colCnt = 0;
+
+        let colStyles = [ "col-sm-8", "col-sm-4",
+            "col-sm", "col-sm", "col-sm",
+            "col-6", "col-6",
+        ];
+
+        let colLengths = [2, 3, 2];
+
+        let htmlString = "<div class=\"row mt-2\">";
+        let htmlModalString = "";
+
+        for(let i=0; i<data.length; i++) {
+            htmlString += "<div class=\"" + colStyles[i % colStyles.length] + "\">";
+            htmlString += "<div class=\"card\">";
+            htmlString += "<img src=\"" + data[i].link + "\" class=\"img-thumbnail\" style=\"width: 100%; height: 25vw; margin-left: auto; margin-right: auto; object-fit: cover;\">";
+
+            htmlString += "<div class=\"card-body\">";
+            htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
+            htmlString += "<p class=\"card-text\">" + data[i].stats + "</p>";
+            htmlString += "<button class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#" + data[i].id + "\">View</button>";
+            htmlString += "</div>";
+            htmlString += "</div>";
+            htmlString += "</div>";
+            colCnt++;
+
+            htmlModalString += createModalHTMLString(data[i]);
+
+            if(colCnt === colLengths[rowCnt % colLengths.length]) {
+                colCnt = 0;
+                rowCnt++;
+                htmlString += "</div>"; // close the row
+                if(i !== data.length-1) { // if this isn't the last item
+                    htmlString += "<div class=\"row mt-2\">" // should create more rows
+                }
+            }
+        }
+        htmlString += htmlModalString;
+        return htmlString;
+    }
+
+    function createModalHTMLString(meme) {
+        let res = "";
+        res += "<div class=\"modal fade\" id=\"" + meme.id + "\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">";
+        res += "<div class=\"modal-dialog modal-dialog-centered modal-dialog-scrollable\">";
+        res += "<div class=\"modal-content\">";
+        res += "<div class=\"modal-header\">";
+        res += "<h5 class=\"modal-title\" id=\"modalLabel\">" + meme.name + "</h5>";
+        res += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>";
+        res += "</div>";
+        res += "<div class=\"modal-body\" style=\"margin-left: auto; margin-right: auto;\">";
+        res += "<img src=\"" + meme.link + "\" class=\"img-fluid\" alt=\"\">";
+        res += "</div>";
+        res += "</div>";
+        res += "</div>";
+        res += "</div>";
+        return res;
+    }
+</script>
+
+<script src="js/web3.min.js"></script>
+<script src="js/truffle-contract.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 
