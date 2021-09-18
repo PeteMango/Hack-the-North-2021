@@ -33,25 +33,42 @@ App = {
   },
 
   initContract: function() {
-    // TODO Load contract stuffs here
+    $.getJSON('MemeMarket.json', function(data) {
+      var memeMarketArtifact = data;
+      App.contracts.MemeMarket = TruffleContract(memeMarketArtifact);
+      App.contracts.MemeMarket.setProvider(App.web3Provider);
 
-    return App.render();
-  },
+      web3.eth.getAccounts(function(err, accounts) {
+        if (err === null) {
+          App.account = accounts[0];
+          console.log('Account: ' + App.account);
+        }
+      });
 
-  render: function() {
-    // Load account data
-    web3.eth.getAccounts(function(err, accounts) {
-      if (err === null) {
-        App.account = accounts[0];
-        console.log('Account: ' + App.account);
-      }
     });
-
-    // TODO Load data from contracts
   },
 
-  uploadMeme: function() {
+  handleVote: function(num) {
+  },
+
+  handleUploadMeme: function() {
     console.log('Submit clicked');
+    var memeurl = $('#memeurl').val();
+    if (memeurl.substr(0, 8) != "https://") {
+      window.alert("Sorry, please enter a link with https://")
+      return;
+    }
+
+    var memeMarketInstance;
+    App.contracts.MemeMarket.deployed().then(function(instance) {
+      memeMarketInstance = instance;
+      // FIXME this is really broken rn
+      return memeMarketInstance.uploadMeme(memeurl);
+    }).then(function() {
+      window.alert("Your meme has been submitted!")
+    }).catch(function(error) {
+      console.warn(error);
+    });
   }
 };
 
