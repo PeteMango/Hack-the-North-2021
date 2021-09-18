@@ -105,7 +105,7 @@ contract MemeMarket {
         memes[lastVote[msg.sender].memeIndices[votedMeme]].price += voteValue-voterPayout;
         memes[lastVote[msg.sender].memeIndices[votedMeme]].history.push(memes[lastVote[msg.sender].memeIndices[votedMeme]].price);
         address payable user = address(uint160(msg.sender));
-        user.transfer(voterPayout);
+        balances[user] += voterPayout;
         for(uint i=0;i<4;i++){
             if(i != votedMeme){
                 uint memeIndex = lastVote[msg.sender].memeIndices[i];
