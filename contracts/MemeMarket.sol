@@ -10,8 +10,7 @@ contract MemeMarket {
 
     struct Vote{
         uint[] memeIndices;
-        bool hasVoted;
-        uint vote;
+        uint happyCompilerNoises;
     }
 
     string worked;
@@ -71,7 +70,7 @@ contract MemeMarket {
         require(validMemeIndices.length >= 4);
         if(!voteExists[msg.sender]){
             uint[] memory fourValues = new uint[](4);
-            lastVote[msg.sender] = Vote(fourValues, false, 0);
+            lastVote[msg.sender] = Vote(fourValues,0);
             voteExists[msg.sender] = true;
 
             uint[] memory usableMemes = validMemeIndices;
@@ -99,16 +98,12 @@ contract MemeMarket {
     }
 
     function vote(uint votedMeme) public {
-        voteExists[msg.sender] = false;
-        lastVote[msg.sender].hasVoted = true;
-
-        require(lastVote[msg.sender].hasVoted == false);
-        lastVote[msg.sender].vote = votedMeme;
+        require(voteExists[msg.sender] == true);
 
         memes[lastVote[msg.sender].memeIndices[votedMeme]].price += voteValue-voterPayout;
         memes[lastVote[msg.sender].memeIndices[votedMeme]].history.push(memes[lastVote[msg.sender].memeIndices[votedMeme]].price);
-        address payable user = address(uint160(msg.sender));
-        balances[user] += voterPayout;
+        balances[msg.sender] += voterPayout;
+
         for(uint i=0;i<4;i++){
             if(i != votedMeme){
                 uint memeIndex = lastVote[msg.sender].memeIndices[i];
@@ -128,6 +123,7 @@ contract MemeMarket {
                 }
             }
         }
+        voteExists[msg.sender] = false;
     }
 
     function deposit() public payable {

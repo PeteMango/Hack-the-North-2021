@@ -104,7 +104,7 @@ App = {
   },
 
   handleUploadETH: function() {
-    var amount = parseInt($('#eth_id').val());
+    var amount = parseFloat($('#eth_id').val());
 
     var memeMarketInstance;
     App.contracts.MemeMarket.deployed().then(function(instance) {
