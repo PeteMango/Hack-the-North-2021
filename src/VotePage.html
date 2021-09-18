@@ -76,8 +76,8 @@
       for(let i=0; i<data.length; i++) {
 
         htmlString += "<td><div class=\"card\" id=\"" + data[i].id + "Border\">";
-        htmlString += "<img src=\"" + data[i].link + "\" class=\"card-img-top\" " + "id= \"" + data[i].id + "\"" +
-                "style=\"width: 40vw; height: 30vw; margin-left: auto; margin-right: auto; object-fit: cover;\">";
+        htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" " + "id= \"" + data[i].id + "\"" +
+                "style=\"width: 40vw; height: 50vh; margin-left: auto; margin-right: auto; object-fit: cover;\">";
         htmlString += "</div>";
         htmlString += "</td>";
         rowCnt++;
@@ -113,68 +113,71 @@
       return res;
     }
 
-    let imageSelected = -1;
 
-    $('#voteButton').prop('disabled', true);
+    function refreshSelection() {
+      let imageSelected = -1;
 
-    document.getElementById("voteButton").addEventListener("click", function () {
-      if(imageSelected !== -1) {
-        App.handleVote(imageSelected);
-        //console.log(imageSelected);
-      }
-    });
+      $('#voteButton').prop('disabled', true);
 
-    document.getElementById("meme0").addEventListener("click", function () {
-      imageSelected = 0;
-      console.log("single");
-      $('#voteButton').prop('disabled', false);
-    });
-
-    document.getElementById("meme0").addEventListener("dblclick", function () {
-      $('#meme0Modal').modal('show');
-      imageSelected = 0 ;
-    });
-
-    document.getElementById("meme1").addEventListener("click", function () {
-      imageSelected = 1;
-      console.log("single");
-      $('#voteButton').prop('disabled', false);
-    });
-
-    document.getElementById("meme1").addEventListener("dblclick", function () {
-      $('#meme1Modal').modal('show');
-    });
-
-    document.getElementById("meme2").addEventListener("click", function () {
-      imageSelected = 2;
-      console.log("single");
-      $('#voteButton').prop('disabled', false);
-    });
-
-    document.getElementById("meme2").addEventListener("dblclick", function () {
-      $('#meme2Modal').modal('show');
-    });
-
-    document.getElementById("meme3").addEventListener("click", function () {
-      imageSelected = 3;
-      console.log("single");
-      $('#voteButton').prop('disabled', false);
-    });
-
-    document.getElementById("meme3").addEventListener("dblclick", function () {
-      $('#meme3Modal').modal('show');
-    });
-
-    document.getElementById("voteTable").addEventListener("click", function () {
-      let id = "#meme" + String(imageSelected) + "Border";
-      $(id).css({'border-color': '#0d6efd', 'border-width': 'medium'});
-      for(let otherImage=0; otherImage<4; otherImage++) {
-        if(otherImage !== imageSelected) {
-          let tmp = "#meme" + String(otherImage) + "Border";
-          $(tmp).css({'border-color': 'rgba(0, 0, 0, 0.125)', 'border-radius': '.25rem'});
+      document.getElementById("voteButton").addEventListener("click", function () {
+        if(imageSelected !== -1) {
+          App.handleVote(imageSelected);
+          //console.log(imageSelected);
         }
-      }
-    })
+      });
+
+      document.getElementById("meme0").addEventListener("click", function () {
+        imageSelected = 0;
+        console.log("single");
+        $('#voteButton').prop('disabled', false);
+      });
+
+      document.getElementById("meme0").addEventListener("dblclick", function () {
+        $('#meme0Modal').modal('show');
+        imageSelected = 0 ;
+      });
+
+      document.getElementById("meme1").addEventListener("click", function () {
+        imageSelected = 1;
+        console.log("single");
+        $('#voteButton').prop('disabled', false);
+      });
+
+      document.getElementById("meme1").addEventListener("dblclick", function () {
+        $('#meme1Modal').modal('show');
+      });
+
+      document.getElementById("meme2").addEventListener("click", function () {
+        imageSelected = 2;
+        console.log("single");
+        $('#voteButton').prop('disabled', false);
+      });
+
+      document.getElementById("meme2").addEventListener("dblclick", function () {
+        $('#meme2Modal').modal('show');
+      });
+
+      document.getElementById("meme3").addEventListener("click", function () {
+        imageSelected = 3;
+        console.log("single");
+        $('#voteButton').prop('disabled', false);
+      });
+
+      document.getElementById("meme3").addEventListener("dblclick", function () {
+        $('#meme3Modal').modal('show');
+      });
+
+      document.getElementById("voteTable").addEventListener("click", function () {
+        let id = "#meme" + String(imageSelected) + "Border";
+        $(id).css({'border-color': '#0d6efd', 'border-width': 'medium'});
+        for(let otherImage=0; otherImage<4; otherImage++) {
+          if(otherImage !== imageSelected) {
+            let tmp = "#meme" + String(otherImage) + "Border";
+            $(tmp).css({'border-color': 'rgba(0, 0, 0, 0.125)', 'border-radius': '.25rem'});
+          }
+        }
+      });
+    }
   </script>
 
 
