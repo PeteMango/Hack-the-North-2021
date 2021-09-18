@@ -57,11 +57,14 @@ App = {
     App.contracts.MemeMarket.deployed().then(function(instance) {
       memeMarketInstance = instance;
       return memeMarketInstance.getVotingOptions({from: App.account});
-    }).then(function(img0, img1, img2, img3) {
-      $('#meme0').attr('src', img0);
-      $('#meme1').attr('src', img1);
-      $('#meme2').attr('src', img2);
-      $('#meme3').attr('src', img3);
+    }).then(function() {
+      return memeMarketInstance.getVotingOptions.call({from: App.account});
+    }).then(function(callReturnValue){
+      console.log(callReturnValue);
+      $('#meme0').attr('src', callReturnValue[0]);
+      $('#meme1').attr('src', callReturnValue[1]);
+      $('#meme2').attr('src', callReturnValue[2]);
+      $('#meme3').attr('src', callReturnValue[3]);
     }).catch(function(error) {
       console.warn(error);
     });
