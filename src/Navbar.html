@@ -1,54 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Created by CodingLab |www.youtube.com/CodingLabYT-->
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<title> Responsive Sidebar Menu  | CodingLab </title>-->
+    <link rel="stylesheet" href="NavbarStyle.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <style>
-        body::before {
-            display: block;
-            content: '';
-            height: 100px;
-        }
-    </style>
 </head>
-<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-    <div class="container">
-        <a href="#" class="navbar-brand">Nyan Cats Only Go Up</a>
-
-        <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbar"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a href="MarketPage.html" class="nav-link">Market</a>
-                </li>
-                <li class="nav-item">
-                    <a href="VotePage.html" class="nav-link">Voting</a>
-                </li>
-                <li class="nav-item">
-                    <a href="UploadPage.html" class="nav-link">Upload</a>
-                </li>
-                <li class="nav-item">
-                    <a href="HomePage.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="MemeCoin.html" class="nav-link">Buy M3M</a>
-                </li>
-                <li class="nav-item">
-                    <a href="FAQ.html" class="nav-link">Frequently Asked Questions</a>
-                </li>
-            </ul>
-        </div>
+<body>
+<div class="sidebar">
+    <div class="logo-details">
+        <i class="bx bx-ghost -c-plus-plus icon"></i>
+<!--        <i class='icons8 cat-footprint -c-plus-plus icon'></i>-->
+        <div class="logo_name">NYAN CAT <br/> ONLY GO UP!</div>
+        <i class='bx bx-menu' id="btn" ></i>
     </div>
-</nav>
+    <ul class="nav-list">
+        <li>
+            <i class='bx bx-search' ></i>
+            <input type="text" placeholder="Search...">
+            <span class="tooltip">Search</span>
+        </li>
+        <li>
+            <a href="HomePage.html">
+                <i class='bx bx-user' ></i>
+                <span class="links_name">Profile</span>
+            </a>
+            <span class="tooltip">Profile</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-pie-chart-alt-2' ></i>
+                <span class="links_name">Stonks</span>
+            </a>
+            <span class="tooltip">Stonks</span>
+        </li>
+        <li>
+            <a href="MarketPage.html">
+                <i class='bx bx-cart-alt' ></i>
+                <span class="links_name">Market</span>
+            </a>
+            <span class="tooltip">Market</span>
+        </li>
+        <li>
+            <a href="UploadPage.html">
+                <i class='bx bx-upload' ></i>
+                <span class="links_name">Upload</span>
+            </a>
+            <span class="tooltip">Upload</span>
+        </li>
+        <li>
+            <a href="VotePage.html">
+                <i class='bx bx-user-pin' ></i>
+                <span class="links_name">Vote</span>
+            </a>
+            <span class="tooltip">Vote</span>
+        </li>
+    </ul>
+</div>
+<section class="home-section">
+    <div class="text">Dashboard</div>
+</section>
+<script src="https://code.iconify.design/2/2.0.3/iconify.min.js"></script>
+<script>
+    let sidebar = document.querySelector(".sidebar");
+    let closeBtn = document.querySelector("#btn");
+    let searchBtn = document.querySelector(".bx-search");
 
+    closeBtn.addEventListener("click", ()=>{
+        sidebar.classList.toggle("open");
+        menuBtnChange();//calling the function(optional)
+    });
+
+    searchBtn.addEventListener("click", ()=>{ // Sidebar open when you click on the search iocn
+        sidebar.classList.toggle("open");
+        menuBtnChange(); //calling the function(optional)
+    });
+
+    // following are the code to change sidebar button(optional)
+    function menuBtnChange() {
+        if(sidebar.classList.contains("open")){
+            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+        }else {
+            closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
+        }
+    }
+</script>
+</body>
 </html>
