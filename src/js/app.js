@@ -101,12 +101,12 @@ App = {
   },
 
   handleUploadETH: function() {
-    var amount = $('#eth_id').val();
+    var amount = parseInt($('#eth_id').val());
 
     var memeMarketInstance;
     App.contracts.MemeMarket.deployed().then(function(instance) {
       memeMarketInstance = instance;
-      return memeMarketInstance.deposit({from: App.account, value: amount});
+      return memeMarketInstance.deposit({from: App.account, value: web3.toWei(amount, 'ether') });
     }).catch(function(error) {
       console.warn(error);
     });
@@ -118,7 +118,7 @@ App = {
     var memeMarketInstance;
     App.contracts.MemeMarket.deployed().then(function(instance) {
       memeMarketInstance = instance;
-      return memeMarketInstance.withdraw(amount, {from: App.account});
+      return memeMarketInstance.withdraw(web3.toWei(amount, 'ether'), {from: App.account});
     }).catch(function(error) {
       console.warn(error);
     });
