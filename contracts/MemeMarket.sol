@@ -21,6 +21,8 @@ contract MemeMarket {
     Meme[] public memes;
     uint[] public validMemeIndices;
     bool[] public isValid;
+    address[] users;
+    mapping(address => bool) public userExisted;
     mapping(address => uint256) public balances;
     mapping(address => bool) public voteExists;
     mapping(address => Vote) public lastVote;
@@ -48,11 +50,90 @@ contract MemeMarket {
         return b;
     }
 
+    function sharePrice(uint meme) public returns (uint256) {
+        return memes[meme].price;
+    }
+
+    function priceHistory(uint meme) public returns (uint256[] memory) {
+        return memes[meme].history;
+    }
+
     function sellShares(uint meme, uint amount) public {
         require(shares[msg.sender][meme] >= amount);
         shares[msg.sender][meme] -= amount;
         forSale[msg.sender][meme] = max(forSale[msg.sender][meme]-amount,0);
         balances[msg.sender] += amount*(memes[meme].price/numShares);
+    }
+
+    function listShares(uint meme, uint amount) public {
+        require(shares[msg.sender][meme]-forSale[msg.sender][meme] >= amount);
+        forSale[msg.sender][meme] += amount;
+    }
+
+    function ownedShares() public returns (uint[] memory){
+        uint numOwnedShares = 0;
+        for(uint i=0;i<memes.length;i++){
+            if(shares[msg.sender][i] > 0) {
+                numOwnedShares++;
+            }
+        }
+        uint[] memory shareIndices = new uint[](numOwnedShares);
+        uint v = 0;
+        for(uint i=0;i<memes.length;i++){
+            if(shares[msg.sender][i] > 0) {
+                shareIndices[v] = i;
+                v++;
+            }
+        }
+        return shareIndices;
+    }
+
+    function ownedMemes() public returns (uint[] memory){
+        uint numOwnedMemes = 0;
+        for(uint i=0;i<memes.length;i++){
+            if(memes[i].author == msg.sender){
+                numOwnedMemes++;
+            }
+        }
+        uint[] memory memeIndices = new uint[](numOwnedMemes);
+        uint v = 0;
+        for(uint i=0;i<memes.length;i++){
+            if(memes[i].author == msg.sender){
+                memeIndices[v] = i;
+                v++;
+            }
+        }
+        return memeIndices;
+    }
+
+    function amountStaked(uint meme) public returns(uint){
+        return shares[msg.sender][meme];
+    }
+
+    function amountForSale(address user, uint meme) public returns (uint) {
+        return forSale[user][meme];
+    }
+
+    function uniqueSharesForSale(address user) public returns (uint[] memory){
+        uint numForSaleShares = 0;
+        for(uint i=0;i<memes.length;i++){
+            if(forSale[user][i] > 0) {
+                numForSaleShares++;
+            }
+        }
+        uint[] memory shareIndices = new uint[](numForSaleShares);
+        uint v = 0;
+        for(uint i=0;i<memes.length;i++){
+            if(forSale[user][i] > 0) {
+                shareIndices[v] = i;
+                v++;
+            }
+        }
+        return shareIndices;
+    }
+
+    function allUsers() public returns (address[] memory) {
+        return users;
     }
 
     function buyShares(address seller, uint meme, uint amount) public {
@@ -93,7 +174,7 @@ contract MemeMarket {
         string memory ret2 = memes[lastVote[msg.sender].memeIndices[2]].image;
         string memory ret3 = memes[lastVote[msg.sender].memeIndices[3]].image;
         return (
-            ret0, ret1, ret2, ret3
+        ret0, ret1, ret2, ret3
         );
     }
 
@@ -127,6 +208,10 @@ contract MemeMarket {
     }
 
     function deposit() public payable {
+        if(!userExisted[msg.sender]){
+            userExisted[msg.sender] = true;
+            users.push(msg.sender);
+        }
         balances[msg.sender] += msg.value;
     }
 
