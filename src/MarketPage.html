@@ -16,7 +16,6 @@
     border: 1px solid #ccc;
     background-color: #f1f1f1;
   }
-
   .tab button {
     background-color: inherit;
     float: left;
@@ -27,68 +26,179 @@
     transition: 0.3s;
     font-size: 17px;
   }
-
   .tabcontent {
     display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
   }
-
   .tab button.active {
     background-color: #ccc;
   }
-
   .tab button:hover {
     background-color: #ddd;
   }
 </style>
 
 <body>
-  <nav id="nav"></nav>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script>
-    $('#nav').load('Navbar.html');
-  </script>
-  <br />
+<nav id="nav"></nav>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+  $('#nav').load('Navbar.html');
+</script>
+<br />
 
-  <div class="container">
+<div class="container">
 
-    <div class="tab">
-      <button class="tablink" onclick="openTab(event, 'buyPage')" id="defaultOpen">Buy</button>
-      <button class="tablink" onclick="openTab(event, 'sellPage')">Sell</button>
-    </div>
-
-    <div id="buyPage" class="tabcontent">
-      <p>buy all you want!!!</p>
-    </div>
-
-    <div id="sellPage" class="tabcontent">
-      <p>sell all you want !!!</p>
-    </div>
+  <div class="tab">
+    <button class="tablink" onclick="openTab(event, 'buyPage')" id="defaultOpen">Buy</button>
+    <button class="tablink" onclick="openTab(event, 'sellPage')">Sell</button>
   </div>
 
-  <script>
-    function openTab(evt, tabName) {
-      let tabcontent = document.getElementsByClassName("tabcontent");
-      for (let i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
+  <div id="buyPage" class="tabcontent">
+    <a id="buyTable"></a>
+  </div>
 
-      let tablinks = document.getElementsByClassName("tablink");
-      for (let i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.className += " active";
+  <div id="sellPage" class="tabcontent">
+    <a id="sellTable"></a>
+  </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    let tabcontent = document.getElementsByClassName("tabcontent");
+    for(let i=0; i<tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
     }
 
-    document.getElementById("defaultOpen").click();
-  </script>
+    let tablinks = document.getElementsByClassName("tablink");
+    for(let i=0; i<tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
 
-  <script src="js/web3.min.js"></script>
-  <script src="js/truffle-contract.js"></script>
-  <script src="js/app.js"></script>
+    if(tabName === "buyPage") {
+      loadBuyAssets();
+    }
+    else {
+      loadSellAssets();
+    }
+  }
+
+  function loadSellAssets() {
+    console.log("load sell assets");
+
+    let userAssets = [
+      {
+        "link": "https://external-preview.redd.it/dDTWYqducJ5-jAQJnV_2-A-QkbtOLu9iTL2rnYXvHSU.jpg?auto=webp&s=955a0cdcda696bded0527a73731a811b9fcb08a5",
+        "name": "Anime pic 1",
+        "stats": "Can be sold for 1 meme coin!!!",
+        "id": "meme 1"
+      },
+      {
+        "link": "https://wallpaperaccess.com/full/434982.jpg",
+        "name": "Anime pic 2",
+        "stats": "Can be sold for 2 meme coins!!!",
+        "id": "meme 2"
+      },
+      {
+        "link": "https://lh3.googleusercontent.com/proxy/jr5zSmlxa5yIFprAmslhKOR1EBzorrimj7ZtKGZE8Wi2XZgEn0C-CIjKC5tMglq38tDv5BMLW69cO-CoaxlkMMZVupF28b7ZFnAcCcWcikq1mLKXZGTtxPU1uF_E-rHYi6zqY2c2abE",
+        "name": "Anime pic 3",
+        "stats": "Can be sold for 3 meme coins!!!",
+        "id": "meme 3"
+      },
+      {
+        "link": "https://www.wallpaperup.com/uploads/wallpapers/2016/10/07/1023575/7d0b5ddd96531b2e7abd5d84a7e6a40e-700.jpg",
+        "name": "Anime pic 4",
+        "stats": "Can be sold for 4 meme coins!!!",
+        "id": "meme 4"
+      }
+    ]; // TODO add real data later
+
+    document.getElementById("sellTable").innerHTML = getHTMLTableString(userAssets, "sell");
+  }
+
+  function loadBuyAssets() {
+    console.log("load buy assets");
+
+    let storeAssets = [
+      {
+        "link": "https://i.pinimg.com/originals/07/21/1b/07211b078ab5e9f537a3daeccef72279.jpg",
+        "name": "Anime pic 1",
+        "stats": "Buy for 1 meme coin?",
+        "id": "meme 1"
+      },
+      {
+        "link": "https://c4.wallpaperflare.com/wallpaper/975/978/358/anime-rascal-does-not-dream-of-bunny-girl-senpai-wallpaper-preview.jpg",
+        "name": "Bunny girl senpai?",
+        "stats": "Buy for 69 meme coins?",
+        "id": "bunny girl"
+      },
+      {
+        "link": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dfcf7c57-21f2-42e9-8b13-8a6588b0eb2b/ddvuwjw-06b14b4b-e676-4595-ba76-bde3ffd76b4f.png/v1/fill/w_1024,h_576,q_80,strp/bunny_girl_senpai_wallpaper_by_pixel1624_ddvuwjw-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvZGZjZjdjNTctMjFmMi00MmU5LThiMTMtOGE2NTg4YjBlYjJiXC9kZHZ1d2p3LTA2YjE0YjRiLWU2NzYtNDU5NS1iYTc2LWJkZTNmZmQ3NmI0Zi5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.2UgLBW7kTqetAgqVVtAzgA9jbf9vJMJD_eNqBveIKS4",
+        "name": "Anime pic 3",
+        "stats": "Buy for 3 meme coins?",
+        "id": "meme 3"
+      },
+      {
+        "link": "https://wallpapercave.com/wp/wp7543782.jpg",
+        "name": "Anime pic 4",
+        "stats": "Buy for 42 meme coins?",
+        "id": "meme 4"
+      }
+    ]; // TODO add real data later
+
+    document.getElementById("buyTable").innerHTML = getHTMLTableString(storeAssets, "buy");
+  }
+  function getHTMLTableString(data, buyOrSell) {
+    let rowCnt = 0; // 3 memes per row
+    let htmlString = "<table class=\"table\"><tr>";
+    for(let i=0; i<data.length; i++) {
+      htmlString += "<td><div class=\"card\">";
+      htmlString += "<img src=\"" + data[i].link + "\" class=\"card-img-top\" style=\"width: 25vw; height: 25vw; object-fit: cover;\">";
+      htmlString += "<div class=\"card-body\">";
+      htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
+      htmlString += "<p class=\"card-text\">" + data[i].stats + "</p>";
+      if(buyOrSell === "sell") {
+        htmlString += "<button class=\"btn btn-primary\" onclick=\"sell(\'" + data[i].id + "\')\">Sell</button>";
+      }
+      else {
+        htmlString += "<button class=\"btn btn-primary\" onclick=\"buy(\'" + data[i].id + "\')\">Buy</button>";
+      }
+      htmlString += "</div>";
+      htmlString += "</div>";
+      rowCnt++;
+      if(rowCnt === 3) { // 3 memes per row
+        rowCnt = 0;
+        htmlString += "</tr>"; // close the row
+        if(i !== data.length-1) { // if this isnt the last item
+          htmlString += "<tr>"; // should create more rows
+        }
+      }
+    }
+    htmlString += "</table>";
+    return htmlString;
+  }
+
+
+  // TODO implement when someone sells a meme with id memeID
+
+  function sell(memeID) {
+    let t = "";
+    t += memeID;
+    console.log("sold " + t + "!!!");
+  }
+
+  // TODO implement when someone buys a meme with id memeID
+  function buy(memeID) {
+    let t = "";
+    t += memeID;
+    console.log("bought " + t + "!!!");
+  }
+  document.getElementById("defaultOpen").click();
+</script>
+
 
 </body>
 
