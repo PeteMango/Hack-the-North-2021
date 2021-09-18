@@ -47,26 +47,27 @@
       {
         "link": "https://i.pinimg.com/originals/df/c7/4b/dfc74b6867617fc8220fddb0efc9d916.jpg",
         "id": "meme0",
-        "name": "meme 0"
+        "name": "Meme #1"
       },
       {
         "link": "https://i.redd.it/j2ink51mnxz51.jpg",
         "id": "meme1",
-        "name": "meme 1"
+        "name": "Meme #2"
       },
       {
         "link": "https://c4.wallpaperflare.com/wallpaper/145/523/587/cute-anime-girl-wallpaper-preview.jpg",
         "id": "meme2",
-        "name": "meme 2"
+        "name": "Meme #3"
       },
       {
         "link": "https://i.pinimg.com/736x/49/e2/58/49e2589c9539258ade7d93709c7299fa.jpg",
         "id": "meme3",
-        "name": "meme 3"
+        "name": "Meme #4"
       },
     ];
 
     document.getElementById("voteTable").innerHTML = getHTMLTableString(voteData);
+    refreshSelection();
 
     function getHTMLTableString(data) {
       let rowCnt = 0; // 2 memes per row

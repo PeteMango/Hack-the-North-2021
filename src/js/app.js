@@ -66,13 +66,12 @@ App = {
   },
 
 
-  loadVotingOptions: function() {
-    App.contracts.MemeMarket.deployed().then(function(instance) {
-      memeMarketInstance = instance;
-      return memeMarketInstance.getVotingOptions({from: App.account});
-    }).then(function() {
-      return memeMarketInstance.getVotingOptions.call({from: App.account});
-    }).then(function(memeurls){
+  loadVotingOptions: async function() {
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      await instance.getVotingOptions({from: App.account});
+      const memeurls = await instance.getVotingOptions.call({from: App.account});
+      alert(memeurls);
       // Messy but who cares
       for (var i = 0; i < 4; i++) {
         $('#meme' + i).attr('src', memeurls[i]);
@@ -80,9 +79,9 @@ App = {
       }
       document.getElementById("voteTable").innerHTML = getHTMLTableString(voteData);
       refreshSelection();
-    }).catch(function(error) {
-      console.warn(error);
-    });
+    } catch(err) {
+      console.warn(err);
+    }
   },
 
   handleUploadMeme: async function() {
