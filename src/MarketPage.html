@@ -161,7 +161,7 @@
     let htmlModalString = "";
     for(let i=0; i<data.length; i++) {
       htmlString += "<td><div class=\"card\">";
-      htmlString += "<img src=\"" + data[i].link + "\" class=\"card-img-top\" style=\"width: 25vw; height: 25vw; margin-left: auto; margin-right: auto;object-fit: cover;\">";
+      htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" style=\"width: 25vw; height: 25vw; margin-left: auto; margin-right: auto;object-fit: cover;\">";
       htmlString += "<div class=\"card-body\">";
       htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
       htmlString += "<p class=\"card-text\">" + data[i].stats + "</p>";
