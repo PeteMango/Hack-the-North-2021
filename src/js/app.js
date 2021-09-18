@@ -106,23 +106,19 @@ App = {
     var memeMarketInstance;
     App.contracts.MemeMarket.deployed().then(function(instance) {
       memeMarketInstance = instance;
-      return memeMarketInstance.deposit(amount, {from: App.account});
-    }).then(function() {
-      window.alert("Your vote has been cast!")
+      return memeMarketInstance.deposit({from: App.account, value: amount});
     }).catch(function(error) {
       console.warn(error);
     });
   },
 
-  handleCashOutETH: function(num) {
+  handleCashOutETH: function() {
     var amount = $('#m3m_id').val();
 
     var memeMarketInstance;
     App.contracts.MemeMarket.deployed().then(function(instance) {
       memeMarketInstance = instance;
       return memeMarketInstance.withdraw(amount, {from: App.account});
-    }).then(function() {
-      window.alert("Your vote has been cast!")
     }).catch(function(error) {
       console.warn(error);
     });
