@@ -94,7 +94,6 @@ App = {
       //   i++;
       // }
 
-
     } catch(err) {
       console.warn(err);
     }
