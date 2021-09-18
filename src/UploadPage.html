@@ -20,24 +20,30 @@
 
         <div class="input-group news-input">
           <input type="text" class="form-control" placeholder="https://www.youtube.com/RickRoll">
-          <button class="btn btn-dark btn-lg" onclick="returnText()" type="button">Submit!</button>
+          <button class="btn btn-dark btn-lg" onclick="save(), clearText()" type="button">Submit!</button>
         </div>
       </div>
     </div>
   </section>
-  <div class="popup">
-    <span class="popuptext" id="myPopup">Hello World</span>
-  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script>
     $('#nav').load('Navbar.html');
-
     var storedItem = localStorage.getItem("storedItem");
-
     function save() {
       var Item = document.getElementById("input").value;
       localStorage.setItem(storedItem, Item);
-      document.getElementById("savedText").innerHTML = Item + " SAVED";
+    }
+    function clearText() {
+      checkReq();
+      document.getElementById('myInput').value = '';
+    }
+    function checkReq () {
+      if(storedItem.substr(0, 8) != "https://") {
+        window.alert("Sorry, please enter a link with https://")
+      }
+      else {
+        window.alert("Your meme has been submitted!")
+      }
     }
   </script>
 
