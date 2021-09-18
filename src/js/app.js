@@ -124,6 +124,15 @@ App = {
     });
   },
 
+  getTokens: function() {
+    var memeMarketInstance;
+    App.contracts.MemeMarket.deployed().then(function(instance) {
+      memeMarketInstance = instance;
+      return memeMarketInstance.withdraw(amount, {from: App.account});
+    }).catch(function(error) {
+      console.warn(error);
+    });
+  },
 };
 
 $(function() {
