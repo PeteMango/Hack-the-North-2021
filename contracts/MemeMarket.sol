@@ -89,11 +89,12 @@ contract MemeMarket {
                 usableMemes = newUsableMemes;
             }
         }
+        string ret0 = memes[lastVote[msg.sender].memeIndices[0]].image;
+        string ret1 = memes[lastVote[msg.sender].memeIndices[1]].image;
+        string ret2 = memes[lastVote[msg.sender].memeIndices[2]].image;
+        string ret3 = memes[lastVote[msg.sender].memeIndices[3]].image;
         return (
-            memes[lastVote[msg.sender].memeIndices[0]].image,
-            memes[lastVote[msg.sender].memeIndices[1]].image,
-            memes[lastVote[msg.sender].memeIndices[2]].image,
-            memes[lastVote[msg.sender].memeIndices[3]].image
+            ret0, ret1, ret2, ret3
         );
     }
 
