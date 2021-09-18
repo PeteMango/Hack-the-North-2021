@@ -41,7 +41,7 @@
                 <input type="number" type="text" class="form-control" placeholder="Convert" readonly>
                 <input id="m3m_id" typeid="amount" type="text" class="form-control" placeholder="1">
                 <input type="text" id="m3m_to_eth" class="form-control" placeholder="ETH to 1 M3M" readonly>
-                <button class="btn btn-dark btn-lg" onclick="App.CachOutETH()" type="button">Checkout!</button>
+                <button class="btn btn-dark btn-lg" onclick="App.handleCashOutETH()" type="button">Checkout!</button>
                 <script>
                     $('#m3m_id').on('change keyup', () => {
                         $('#m3m_to_eth').prop('placeholder', "M3M to "+$('#m3m_id').prop("value")+" ETH")

@@ -98,7 +98,36 @@ App = {
     }).catch(function(error) {
       console.warn(error);
     });
-  }
+  },
+
+  handleUploadETH: function() {
+    var amount = $('#eth_id').val();
+
+    var memeMarketInstance;
+    App.contracts.MemeMarket.deployed().then(function(instance) {
+      memeMarketInstance = instance;
+      return memeMarketInstance.deposit(amount, {from: App.account});
+    }).then(function() {
+      window.alert("Your vote has been cast!")
+    }).catch(function(error) {
+      console.warn(error);
+    });
+  },
+
+  handleCashOutETH: function(num) {
+    var amount = $('#m3m_id').val();
+
+    var memeMarketInstance;
+    App.contracts.MemeMarket.deployed().then(function(instance) {
+      memeMarketInstance = instance;
+      return memeMarketInstance.withdraw(amount, {from: App.account});
+    }).then(function() {
+      window.alert("Your vote has been cast!")
+    }).catch(function(error) {
+      console.warn(error);
+    });
+  },
+
 };
 
 $(function() {
