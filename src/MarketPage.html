@@ -10,14 +10,78 @@
 
 </head>
 
+<style>
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+  .tab button.active {
+    background-color: #ccc;
+  }
+  .tab button:hover {
+    background-color: #ddd;
+  }
+</style>
+
 <body>
   <nav id="nav"></nav>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script>
     $('#nav').load('Navbar.html');
   </script>
+  <br />
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+  <div class="container">
+
+    <div class="tab">
+      <button class="tablink" onclick="openTab(event, 'buyPage')" id="defaultOpen">Buy</button>
+      <button class="tablink" onclick="openTab(event, 'sellPage')">Sell</button>
+    </div>
+
+    <div id="buyPage" class="tabcontent">
+      <p>buy all you want!!!</p>
+    </div>
+
+    <div id="sellPage" class="tabcontent">
+      <p>sell all you want !!!</p>
+    </div>
+  </div>
+
+<script>
+  function openTab(evt, tabName) {
+    let tabcontent = document.getElementsByClassName("tabcontent");
+    for(let i=0; i<tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+
+    let tablinks = document.getElementsByClassName("tablink");
+    for(let i=0; i<tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+  document.getElementById("defaultOpen").click();
+</script>
+
 
 </body>
 

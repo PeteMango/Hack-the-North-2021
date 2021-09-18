@@ -48,6 +48,9 @@ App = {
     });
 
     // TODO Load data from contracts
+
+    // Redirect to HomePage
+    window.location = "HomePage.html"
   }
 };
 
