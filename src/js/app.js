@@ -49,7 +49,7 @@ App = {
       // Kind of a messy solution but works for now
       if (window.location.pathname === '/VotePage.html') {
         return App.loadVotingOptions();
-      } else if (window.location.pathname === '/HomePage.html') {
+      } else if (window.location.pathname === '/MarketPage.html') {
         return App.loadAssets();
       }
     });
@@ -58,8 +58,43 @@ App = {
   loadAssets: async function() {
     try {
       const instance = await App.contracts.MemeMarket.deployed();
-      const balance = await instance.balances.call(App.account);
-      console.log(balance);
+
+      // The following should probably be done with Promise.all
+      // To take advantage of the async
+
+      // Load own meme shares
+      userAssets = [];
+      const ownedShares = await instance.ownedShares.call();
+      let i = 0;
+      for (const idx of ownedShares) {
+        meme = await instance.memes.call(idx.toString());
+        amountStaked = await instance.amountStaked.call(idx.toString());
+        userAssets.push({
+          link: meme[1],
+          name: 'Meme uwu',
+          stats: amountStaked + ' shares owned @ ' + web3.fromWei(meme[2].toString(), 'ether') + 'M3M',
+          id: 'sell' + i
+        });
+        i++;
+      }
+
+      // Load shares for sale
+      // storeAssets = [];
+      // const sharesForSale = await instance.uniqueSharesForSale.call();
+      // i = 0;
+      // for (const idx of sharesForSale) {
+      //   meme = await instance.memes.call(idx.toString());
+      //   amountStaked = await instance.amountStaked.call(idx.toString());
+      //   userAssets.push({
+      //     link: meme[1],
+      //     name: 'Meme uwu',
+      //     stats: amountStaked + ' shares owned @ ' + web3.fromWei(meme[2].toString(), 'ether') + 'M3M',
+      //     id: 'sell' + i
+      //   });
+      //   i++;
+      // }
+
+
     } catch(err) {
       console.warn(err);
     }
@@ -71,7 +106,6 @@ App = {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.getVotingOptions({from: App.account});
       const memeurls = await instance.getVotingOptions.call({from: App.account});
-      alert(memeurls);
       // Messy but who cares
       for (var i = 0; i < 4; i++) {
         $('#meme' + i).attr('src', memeurls[i]);
@@ -107,6 +141,8 @@ App = {
     try {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.vote(num, {from: App.account});
+      // Refresh voting options
+      await App.loadVotingOptions();
     } catch(err) {
       console.warn(err);
     }
