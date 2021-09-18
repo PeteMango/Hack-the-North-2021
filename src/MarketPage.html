@@ -48,7 +48,9 @@
   $('#nav').load('Navbar.html');
 </script>
 <br />
-
+<div class="container">
+  <h1>Buying Memes or Selling your Memes</h1>
+</div>
 <div class="container">
 
   <div class="tab">
@@ -63,6 +65,8 @@
   <div id="sellPage" class="tabcontent">
     <a id="sellTable"></a>
   </div>
+
+  <br />
 </div>
 
 <script>
@@ -159,15 +163,22 @@
       htmlString += "<div class=\"card-body\">";
       htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
       htmlString += "<p class=\"card-text\">" + data[i].stats + "</p>";
+      htmlString += "<div class=\"row mt-1\">";
       if(buyOrSell === "sell") {
         htmlString += "<button class=\"btn btn-primary\" onclick=\"sell(\'" + data[i].id + "\')\">Sell</button>";
       }
       else {
         htmlString += "<button class=\"btn btn-primary\" onclick=\"buy(\'" + data[i].id + "\')\">Buy</button>";
       }
+      htmlString += "</div>";
+      htmlString += "<div class=\"row mt-1\">";
       htmlString += "<button class=\"btn btn-secondary\" data-bs-toggle=\"modal\" data-bs-target=\"#" + data[i].id + "\">Open full image</button>";
       htmlString += "</div>";
+
       htmlString += "</div>";
+      htmlString += "</div>";
+      htmlString += "</div>";
+      htmlString += "</td>";
       rowCnt++;
       htmlModalString += createModalHTMLString(data[i]);
       if(rowCnt === 3) { // 3 memes per row
@@ -180,7 +191,6 @@
     }
     htmlString += "</table>";
     htmlString += htmlModalString;
-    // creating modal
 
     return htmlString;
   }
@@ -188,7 +198,7 @@
   function createModalHTMLString(meme) {
     let res = "";
     res += "<div class=\"modal fade\" id=\"" + meme.id + "\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">";
-    res += "<div class=\"modal-dialog modal-dialog-centered modal-dialog-scrollable\">";
+    res += "<div class=\"modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable\">";
     res += "<div class=\"modal-content\">";
     res += "<div class=\"modal-header\">";
     res += "<h5 class=\"modal-title\" id=\"modalLabel\">" + meme.name + "</h5>";
@@ -202,7 +212,6 @@
     res += "</div>";
     return res;
   }
-
 
   // TODO implement when someone sells a meme with id memeID
 
