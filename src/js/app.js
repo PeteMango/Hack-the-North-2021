@@ -40,17 +40,18 @@ App = {
 
   render: function() {
     // Load account data
-    web3.eth.getCoinbase(function(err, account) {
+    web3.eth.getAccounts(function(err, accounts) {
       if (err === null) {
-        App.account = account;
-        // $("#accountAddress").html("Your Account: " + account);
+        App.account = accounts[0];
+        console.log('Account: ' + App.account);
       }
     });
 
     // TODO Load data from contracts
+  },
 
-    // Redirect to HomePage
-    window.location = "HomePage.html"
+  uploadMeme: function() {
+    console.log('Submit clicked');
   }
 };
 

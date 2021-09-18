@@ -16,6 +16,7 @@
     border: 1px solid #ccc;
     background-color: #f1f1f1;
   }
+
   .tab button {
     background-color: inherit;
     float: left;
@@ -26,15 +27,18 @@
     transition: 0.3s;
     font-size: 17px;
   }
+
   .tabcontent {
     display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
   }
+
   .tab button.active {
     background-color: #ccc;
   }
+
   .tab button:hover {
     background-color: #ddd;
   }
@@ -64,24 +68,27 @@
     </div>
   </div>
 
-<script>
-  function openTab(evt, tabName) {
-    let tabcontent = document.getElementsByClassName("tabcontent");
-    for(let i=0; i<tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
+  <script>
+    function openTab(evt, tabName) {
+      let tabcontent = document.getElementsByClassName("tabcontent");
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      let tablinks = document.getElementsByClassName("tablink");
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
     }
 
-    let tablinks = document.getElementsByClassName("tablink");
-    for(let i=0; i<tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-  }
+    document.getElementById("defaultOpen").click();
+  </script>
 
-  document.getElementById("defaultOpen").click();
-</script>
-
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
 
 </body>
 
