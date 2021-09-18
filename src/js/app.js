@@ -38,13 +38,12 @@ App = {
       App.contracts.MemeMarket = TruffleContract(memeMarketArtifact);
       App.contracts.MemeMarket.setProvider(App.web3Provider);
 
-      web3.eth.getAccounts(function(err, accounts) {
+      web3.eth.getCoinbase(function(err, account) {
         if (err === null) {
-          App.account = accounts[0];
+          App.account = account;
           console.log('Account: ' + App.account);
         }
       });
-
     });
   },
 
@@ -62,8 +61,7 @@ App = {
     var memeMarketInstance;
     App.contracts.MemeMarket.deployed().then(function(instance) {
       memeMarketInstance = instance;
-      // FIXME this is really broken rn
-      return memeMarketInstance.uploadMeme(memeurl);
+      return memeMarketInstance.uploadMeme(memeurl, {from: App.account});
     }).then(function() {
       window.alert("Your meme has been submitted!")
     }).catch(function(error) {
