@@ -113,7 +113,7 @@ App = {
   },
 
   handleUploadETH: async function() {
-    var amount = parseInt($('#eth_id').val());
+    var amount = parseFloat($('#eth_id').val());
 
     try {
       const instance = await App.contracts.MemeMarket.deployed();
