@@ -44,10 +44,27 @@ App = {
           console.log('Account: ' + App.account);
         }
       });
+
+      // Load memes if on voting page
+      // Kind of a messy solution but works for now
+      if (window.location.pathname === '/VotePage.html') {
+        return App.loadVotingOptions();
+      }
     });
   },
 
-  handleVote: function(num) {
+  loadVotingOptions: function() {
+    App.contracts.MemeMarket.deployed().then(function(instance) {
+      memeMarketInstance = instance;
+      return memeMarketInstance.getVotingOptions({from: App.account});
+    }).then(function(img0, img1, img2, img3) {
+      $('#meme0').attr('src', img0);
+      $('#meme1').attr('src', img1);
+      $('#meme2').attr('src', img2);
+      $('#meme3').attr('src', img3);
+    }).catch(function(error) {
+      console.warn(error);
+    });
   },
 
   handleUploadMeme: function() {
@@ -64,6 +81,20 @@ App = {
       return memeMarketInstance.uploadMeme(memeurl, {from: App.account});
     }).then(function() {
       window.alert("Your meme has been submitted!")
+    }).catch(function(error) {
+      console.warn(error);
+    });
+  },
+
+  handleVote: function(num) {
+    console.log('Voted for meme #' + num);
+
+    var memeMarketInstance;
+    App.contracts.MemeMarket.deployed().then(function(instance) {
+      memeMarketInstance = instance;
+      return memeMarketInstance.vote(num, {from: App.account});
+    }).then(function() {
+      window.alert("Your vote has been cast!")
     }).catch(function(error) {
       console.warn(error);
     });
