@@ -71,9 +71,6 @@ App = {
     try {
       const instance = await App.contracts.MemeMarket.deployed();
 
-      // The following should probably be done with Promise.all
-      // To take advantage of the async
-
       // Load own meme shares
       userAssets = [];
       const ownedShares = await instance.ownedShares.call();
@@ -123,7 +120,6 @@ App = {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.getVotingOptions({from: App.account});
       const memeurls = await instance.getVotingOptions.call({from: App.account});
-      // Messy but who cares
       for (var i = 0; i < 4; i++) {
         $('#meme' + i).attr('src', memeurls[i]);
         voteData[i].link = memeurls[i];
@@ -148,6 +144,8 @@ App = {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.uploadMeme(memename, memeurl, {from: App.account});
       await App.refreshBalance();
+      $('#memeurl').val('');
+      $('#memename').val('');
       window.alert("Your meme has been submitted!")
     } catch(err) {
       console.warn(err);
@@ -160,7 +158,6 @@ App = {
     try {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.vote(num, {from: App.account});
-      // Refresh voting options and balance
       await App.refreshBalance();
       await App.loadVotingOptions();
     } catch(err) {

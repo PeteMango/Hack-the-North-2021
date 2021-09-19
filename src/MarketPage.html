@@ -49,7 +49,7 @@
 </script>
 <br />
 <div class="container">
-  <h1>Buying Memes or Selling your Memes</h1>
+  <h1>Meme Market</h1>
 </div>
 <div class="container">
 
@@ -186,7 +186,7 @@
       }
       htmlString += '<div class="btn-toolbar-vertical" role="toolbar">';
       htmlString += '<div class="btn-group d-flex" role="group">';
-      htmlString += '<input type="number" id="input' + i + '" value="' + data[i].amount +'" min="1" max="' + data[i].amount + '" step="1">';
+      htmlString += '<input type="number" id="input' + i + '" placeholder="' + data[i].amount +'" min="1" max="' + data[i].amount + '" step="1">';
       if(buyOrSell === "sell") {
         htmlString += "<button class=\"btn btn-primary w-100\" onclick=\"App.handleSell(\'" + i + "\')\">Sell</button>";
       }
