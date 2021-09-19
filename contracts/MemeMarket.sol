@@ -219,5 +219,6 @@ contract MemeMarket {
         require(balances[msg.sender] >= amount);
         address payable user = address(uint160(msg.sender));
         user.transfer(amount);
+        balances[msg.sender] -= amount;
     }
 }
