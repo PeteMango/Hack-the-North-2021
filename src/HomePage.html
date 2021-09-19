@@ -144,11 +144,58 @@
         ];
 
         document.getElementById("trendPage").innerHTML = getHTMLGridString(trendData);
+        addChartJSRenders(trendData);
     }
 
     function loadProfilePage() {
 
     }
+
+    function addChartJSRenders(data){
+        for(let i=0; i<data.length; i++) {
+            let meme = data[i];
+            let waitForVisibility = setInterval(() => {
+                if ($(`#img_${meme.id}`).width() !== 0) {
+                    let ctx = $(`#id_chart_${meme.id}`).get(0).getContext('2d');
+                    let imageWidth = $(`#img_${meme.id}`).width();
+                    ctx.canvas.width = imageWidth;
+                    ctx.canvas.height = imageWidth * (1 / 2);
+                    let myChart = new Chart(ctx, {
+                        type: 'scatter',
+                        data: {
+                            datasets: [{
+                                label: 'Meme Name',
+                                data: [{x:0, y:0.1}, {x:2,y:0.2}, {x:3,y:0.4}, {x:7,y:0.3}, {x:10, y:0.05}],
+                                showLine: true,
+                                fill: false,
+                                borderColor: '#23c895',
+                                tension: 0.3,
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Meme Market Cap ($M3M)',
+                                    },
+                                    beginAtZero: true,
+                                },
+                                x:{
+                                    title: {
+                                        display: true,
+                                        text: 'Time',
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    clearInterval(waitForVisibility);
+                }
+            }, 10);
+        }
+    }
+
     function getHTMLGridString(data) {
         let rowCnt = 0;
         let colCnt = 0;
@@ -163,23 +210,43 @@
         let htmlString = "<div class=\"row mt-2\">";
         let htmlModalString = "";
 
-        for(let i=0; i<data.length; i++) {
-            htmlString +=
-            `
-            <div class="${colStyles[i % colStyles.length]}">
-                <div class="card">
-                    <img src="${data[i].link}" class="img-thumbnail" style="width: 100%; height: 25vw; margin-left: auto; margin-right: auto; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">${data[i].name}</h5>
-                        <p class="card-text">${data[i].description}</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${data[i].id}">View</button>
+        function createModalHTMLString(meme) {
+            return `
+                <div class="modal fade" id="${meme.id}" tabindex="-1">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel">${meme.name}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body" style="margin-left: auto; margin-right: auto;">
+                                <img id="img_${meme.id}" src="${meme.link}" class="img-fluid" alt="">
+                                <h5>Information</h5>
+                                <p>${meme.stats}</p>
+                                <canvas id="id_chart_${meme.id}"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            `
+        }
+
+        for(let i=0; i<data.length; i++) {
+            htmlModalString += createModalHTMLString(data[i]);
+            htmlString +=
+            `
+                <div class="${colStyles[i % colStyles.length]}">
+                    <div class="card">
+                        <img src="${data[i].link}" class="img-thumbnail" style="width: 100%; height: 25vw; margin-left: auto; margin-right: auto; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">${data[i].name}</h5>
+                            <p class="card-text">${data[i].description}</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${data[i].id}">View</button>
+                        </div>
+                    </div>
+                </div>
             `
             colCnt++;
-
-            htmlModalString += createModalHTMLString(data[i]);
 
             if(colCnt === colLengths[rowCnt % colLengths.length]) {
                 colCnt = 0;
@@ -192,26 +259,6 @@
         }
         htmlString += htmlModalString;
         return htmlString;
-    }
-
-    function createModalHTMLString(meme) {
-        let res = "";
-        res += "<div class=\"modal fade\" id=\"" + meme.id + "\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">";
-        res += "<div class=\"modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable\">";
-        res += "<div class=\"modal-content\">";
-        res += "<div class=\"modal-header\">";
-        res += "<h5 class=\"modal-title\" id=\"modalLabel\">" + meme.name + "</h5>";
-        res += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>";
-        res += "</div>";
-        res += "<div class=\"modal-body\" style=\"margin-left: auto; margin-right: auto;\">";
-        res += "<img src=\"" + meme.link + "\" class=\"img-fluid\" alt=\"\">";
-        res += "<h5>Information</h5>";
-        res += "<p>" + meme.stats + "</p>";
-        res += "</div>";
-        res += "</div>";
-        res += "</div>";
-        res += "</div>";
-        return res;
     }
 
     document.getElementById("defaultOpen").click();

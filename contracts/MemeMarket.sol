@@ -6,7 +6,8 @@ contract MemeMarket {
         string name;
         string image;
         uint256 price;
-        uint[] history;
+        uint256[] history;
+        uint256[] timeHistory;
         uint forSale;
     }
 
@@ -38,8 +39,9 @@ contract MemeMarket {
     function uploadMeme(string memory name, string memory image) public {
         require(balances[msg.sender] >= initialPayment);
         balances[msg.sender] -= initialPayment;
-        uint[] memory history;
-        Meme memory meme = Meme(msg.sender, name, image, initialPayment, history, 0);
+        uint256[] memory history;
+        uint256[] memory timeHistory;
+        Meme memory meme = Meme(msg.sender, name, image, initialPayment, history, timeHistory, 0);
         memes.push(meme);
         validMemeIndices.push(memes.length-1);
         isValid.push(true);
@@ -155,6 +157,7 @@ contract MemeMarket {
 
         memes[lastVote[msg.sender].memeIndices[votedMeme]].price += voteValue-voterPayout;
         memes[lastVote[msg.sender].memeIndices[votedMeme]].history.push(memes[lastVote[msg.sender].memeIndices[votedMeme]].price);
+        memes[lastVote[msg.sender].memeIndices[votedMeme]].timeHistory.push(block.timestamp);
         balances[msg.sender] += voterPayout;
 
         for(uint i=0;i<4;i++){
@@ -162,6 +165,7 @@ contract MemeMarket {
                 uint memeIndex = lastVote[msg.sender].memeIndices[i];
                 memes[memeIndex].price -= voteValue;
                 memes[memeIndex].history.push(memes[memeIndex].price);
+                memes[memeIndex].history.push(block.timestamp);
                 if(memes[memeIndex].price <= voteValue){
                     uint[] memory newValidMemeIndices = new uint[](validMemeIndices.length-1);
                     uint j = 0;
