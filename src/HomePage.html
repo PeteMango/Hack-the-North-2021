@@ -93,64 +93,7 @@
             document.getElementById("pageTitle").innerText = "Trending Memes";
         }
     }
-    let trendData = [
-        {
-            "link": "https://static.boredpanda.com/blog/wp-content/uploads/2021/05/fb_image_60ae515b06705__700.jpg",
-            "name": "penguin!!!",
-            "description": "super awesome",
-            "stats": "sold 42 times",
-            "id": "trend1",
-            data:[{x:0, y:0.1}, {x:2,y:0.2}, {x:3,y:0.4}, {x:7,y:0.3}, {x:10, y:0.05}],
-        },
-        {
-            "link": "https://i1.wp.com/anitrendz.net/news/wp-content/uploads/2021/04/Winter-2021-Best-Girls.png",
-            "name": "best waifus",
-            "description": ":)",
-            "stats": "sold 69 times",
-            "id": "trend2",
-            data:[{x:0, y:0.1}, {x:2,y:0.2}, {x:3,y:0.4}, {x:7,y:0.3}, {x:10, y:0.05}],
-        },
-        {
-            "link": "https://i0.wp.com/myotakuworld.com/wp-content/uploads/2020/06/cute-anime-girls-cover-1.jpg?fit=1920%2C1080&ssl=1",
-            "name": "quintuplets!!!",
-            "description": "5 > 1",
-            "stats": "sold 2 times",
-            "id": "trend3",
-            data:[{x:0, y:0.1}, {x:2,y:0.2}, {x:3,y:0.4}, {x:7,y:0.3}, {x:10, y:0.05}],
-        },
-        {
-            "link": "https://wallpaperboat.com/wp-content/uploads/2020/06/03/42361/aesthetic-anime-01.jpg",
-            "name": "scenery!!!",
-            "description": "poggers",
-            "stats": "sold 1 time",
-            "id": "trend4",
-            data:[{x:0, y:0.1}, {x:2,y:0.2}, {x:3,y:0.4}, {x:7,y:0.3}, {x:10, y:0.05}],
-        },
-        {
-            "link": "https://wallshub.net/wp-content/uploads/2021/05/Gojo-Satoru-Mobile-Wallpaper.jpg",
-            "name": "gojo sensei?",
-            "description": "simp",
-            "stats": "sold 8 times",
-            "id": "trend5",
-            data:[{x:0, y:0.1}, {x:2,y:0.2}, {x:3,y:0.4}, {x:7,y:0.3}, {x:10, y:0.05}],
-        },
-        {
-            "link": "https://wallpaper.dog/large/17022708.png",
-            "name": "kimi no wa?",
-            "description": "saddddddd romance",
-            "stats": "sold 6 times",
-            "id": "trend6",
-            data:[{x:0, y:0.1}, {x:2,y:0.2}, {x:3,y:0.4}, {x:7,y:0.3}, {x:10, y:0.05}],
-        },
-        {
-            "link": "https://media-exp1.licdn.com/dms/image/C4E1BAQHd5EgZUn-Cpw/company-background_10000/0/1605462167150?e=2159024400&v=beta&t=_fwEJRczBjh_1N_ilG3a8zCW29Xn6eFwwmjBzNhw1Go",
-            "name": "bayviewwww",
-            "description": "lets goooo",
-            "stats": "sold 2 times",
-            "id": "trend7",
-            data:[{x:0, y:0.1}, {x:2,y:0.2}, {x:3,y:0.4}, {x:7,y:0.3}, {x:10, y:0.05}],
-        },
-    ];
+    let trendData = [];
 
     function loadTrendingPage() {
         document.getElementById("trendPage").innerHTML = getHTMLGridString(trendData);

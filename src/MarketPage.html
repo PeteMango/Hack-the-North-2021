@@ -104,74 +104,8 @@
       loadSellAssets();
     }
   }
-  let userAssets = [
-    {
-      idx: 0,
-      name: 'test 1',
-      link: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed615427-7cbf-44ce-9725-34fe84f49000/dd8w9ht-3342dcb6-daf3-4c56-8c85-0dbdd233901c.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2VkNjE1NDI3LTdjYmYtNDRjZS05NzI1LTM0ZmU4NGY0OTAwMFwvZGQ4dzlodC0zMzQyZGNiNi1kYWYzLTRjNTYtOGM4NS0wZGJkZDIzMzkwMWMuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Z5ytfS0qExv1ejp2Dg7-Md0odCfd2BRCXcun11lFvAo',
-      amount: 69420,
-      price: 0.001337,
-      id: 'buy0'
-    },
-    {
-      idx: 1,
-      name: 'test 2',
-      link: 'https://c4.wallpaperflare.com/wallpaper/295/163/719/anime-anime-boys-picture-in-picture-kimetsu-no-yaiba-kamado-tanjir%C5%8D-hd-wallpaper-preview.jpg',
-      amount: 69420,
-      price: 0.001337,
-      id: 'buy1'
-    },
-    {
-      idx: 2,
-      name: 'test 3',
-      link: 'https://p4.wallpaperbetter.com/wallpaper/239/52/978/kimetsu-no-yaiba-anime-anime-girls-kochou-shinobu-hd-wallpaper-preview.jpg',
-      amount: 69420,
-      price: 0.001337,
-      id: 'buy2'
-    },
-    {
-      idx: 3,
-      name: 'test 4',
-      link: 'https://wallpaperbat.com/img/114631-cute-anime-wallpaper-iphone-hd-wallpaper.jpg',
-      amount: 69420,
-      price: 0.001337,
-      id: 'buy3'
-    }
-  ];
-  let storeAssets = [
-    {
-      idx: 0,
-      name: 'test 1',
-      link: 'https://images-cdn.9gag.com/photo/aqKgyGY_700b.jpg',
-      amount: 69420,
-      price: 0.001337,
-      id: 'sell0'
-    },
-    {
-      idx: 1,
-      name: 'test 2',
-      link: 'https://papers.co/wallpaper/papers.co-bj10-art-girl-face-smile-cute-anime-35-3840x2160-4k-wallpaper.jpg',
-      amount: 69420,
-      price: 0.001337,
-      id: 'sell1'
-    },
-    {
-      idx: 2,
-      name: 'test 3',
-      link: 'https://i.pinimg.com/originals/0a/ec/ae/0aecae65e9c73f438c2c77120067ce29.jpg',
-      amount: 69420,
-      price: 0.001337,
-      id: 'sell2'
-    },
-    {
-      idx: 3,
-      name: 'test 4',
-      link: 'https://i.pinimg.com/736x/c8/bd/a9/c8bda99ff35a1aca879a77d8dfb84dd2.jpg',
-      amount: 69420,
-      price: 0.001337,
-      id: 'sell3'
-    }
-  ];
+  let userAssets = [];
+  let storeAssets = [];
 
   function loadSellAssets() {
     console.log("load sell assets");
