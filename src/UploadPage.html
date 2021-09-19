@@ -13,6 +13,43 @@
   <title>Upload Your Memes</title>
 
 </head>
+<style>
+  body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #8186a3;
+  }
+  
+  .container_foto {
+    background-color: rgba(57, 62, 93, 0.7);
+    padding: 0;
+    overflow: hidden;
+    max-width: 350px;
+    margin: 5px;
+  }
+
+  .container_foto img {
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.4;
+    -webkit-transition: all 4s ease;
+    -moz-transition: all 4s ease;
+    -o-transition: all 4s ease;
+    -ms-transition: all 4s ease;
+    transition: all 4s ease;
+  }
+
+  /*hovers*/
+  .container_foto:hover {
+    cursor: pointer;
+  }
+
+  .container_foto:hover img {
+    opacity: 0.1;
+    transform: scale(1.5);
+  }
+
+</style>
 
 <body>
   <nav id="nav"></nav>
@@ -55,15 +92,16 @@
         </div>
       </section>
     </div>
-
     <div class="row mt-3">
       <section class="bg-secondary text-light p-5">
         <div class="container">
           <div class="d-md-flex justify-content-between align-items-center">
             <h3 class="mb-3 mb-md-0">Image Preview</h3>
             <div class="card">
-              <img id="previewImage" src="https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg"
-                   class="img-thumbnail" style="width: 30vw; height: 60vh; object-fit: cover;">
+              <div class="container_foto">
+                <img id="previewImage" src="https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg"
+                     class="img-thumbnail" style="width: 30vw; height: 60vh; object-fit: cover;">
+              </div>
             </div>
             <br />
           </div>
