@@ -21,8 +21,9 @@
     background: #fff;
     box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
     transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
-    padding: 14px 80px 18px 36px;
     cursor: pointer;
+    padding: 12px 12px 12px 12px;
+
   }
 
   .card:hover{
@@ -93,7 +94,7 @@
 
       htmlString += "<td><div class=\"card\" id=\"" + data[i].id + "Border\">";
       htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" " + "id= \"" + data[i].id + "\"" +
-              "style=\"width: 40vw; height: 50vh; margin-left: auto; margin-right: auto; object-fit: cover;\">";
+              " style=\"width: 40vw; height: 50vh; object-fit: cover;\">";
       htmlString += "</div>";
       htmlString += "</td>";
       rowCnt++;
@@ -121,7 +122,7 @@
     res += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>";
     res += "</div>";
     res += "<div class=\"modal-body\" style=\"margin-left: auto; margin-right: auto;\">";
-    res += "<img src=\"" + meme.link + "\" class=\"img-fluid\">"
+    res += "<img src=\"" + meme.link + "\" class=\"img-fluid\">";
     res += "</div>";
     res += "</div>";
     res += "</div>";
