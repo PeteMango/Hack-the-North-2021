@@ -45,6 +45,7 @@ App = {
         }
       });
 
+      App.refreshBalance();
       // Load memes if on voting page
       // Kind of a messy solution but works for now
       if (window.location.pathname === '/VotePage.html') {
@@ -53,6 +54,17 @@ App = {
         return App.loadAssets();
       }
     });
+  },
+
+  refreshBalance: async function() {
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      const balance = await instance.balances.call(App.account);
+      console.log(web3.fromWei(balance, 'ether').toString());
+      $('#balance').text('Balance: ' + web3.fromWei(balance, 'ether').toString() + 'M3M');
+    } catch(err) {
+      console.warn(err);
+    }
   },
 
   loadAssets: async function() {
@@ -133,6 +145,7 @@ App = {
     try {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.uploadMeme(memeurl, {from: App.account});
+      await App.refreshBalance();
       window.alert("Your meme has been submitted!")
     } catch(err) {
       console.warn(err);
@@ -145,7 +158,8 @@ App = {
     try {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.vote(num, {from: App.account});
-      // Refresh voting options
+      // Refresh voting options and balance
+      await App.refreshBalance();
       await App.loadVotingOptions();
     } catch(err) {
       console.warn(err);
