@@ -97,8 +97,8 @@ App = {
       storeAssets = [];
       const memesLength = await instance.memesLength.call();
       i = 0
-      for (let j = 0; i < memesLength; j++) {
-        const meme = await instance.memes.call(i);
+      for (let j = 0; j < memesLength; j++) {
+        const meme = await instance.memes.call(j);
         if (meme[4].toString() == "0") continue;
         storeAssets.push({
           idx: j,
