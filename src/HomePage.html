@@ -164,17 +164,19 @@
         let htmlModalString = "";
 
         for(let i=0; i<data.length; i++) {
-            htmlString += "<div class=\"" + colStyles[i % colStyles.length] + "\">";
-            htmlString += "<div class=\"card\">";
-            htmlString += "<img src=\"" + data[i].link + "\" class=\"img-thumbnail\" style=\"width: 100%; height: 25vw; margin-left: auto; margin-right: auto; object-fit: cover;\">";
-
-            htmlString += "<div class=\"card-body\">";
-            htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
-            htmlString += "<p class=\"card-text\">" + data[i].description + "</p>";
-            htmlString += "<button class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#" + data[i].id + "\">View</button>";
-            htmlString += "</div>";
-            htmlString += "</div>";
-            htmlString += "</div>";
+            htmlString +=
+            `
+            <div class="${colStyles[i % colStyles.length]}">
+                <div class="card">
+                    <img src="${data[i].link}" class="img-thumbnail" style="width: 100%; height: 25vw; margin-left: auto; margin-right: auto; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">${data[i].name}</h5>
+                        <p class="card-text">${data[i].description}</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${data[i].id}">View</button>
+                    </div>
+                </div>
+            </div>
+            `
             colCnt++;
 
             htmlModalString += createModalHTMLString(data[i]);
