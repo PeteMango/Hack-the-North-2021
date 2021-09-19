@@ -15,171 +15,185 @@
   <!-- need this script for lightboxes-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </head>
+<style>
+  .card{
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    padding: 14px 80px 18px 36px;
+    cursor: pointer;
+  }
 
+  .card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+  }
+</style>
 <body>
-  <nav id="nav"></nav>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script>
-    $('#nav').load('Navbar.html');
-  </script>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12" style="align-content: center">
-        <h1 class="text-center">Vote on one of the memes below!</h1>
-        <p class="text-center">Select one of the images to vote</p>
-        <div class="text-center">
-          <button class= "btn btn-primary" id="voteButton">Vote</button>
-        </div>
-        <hr />
-        <br />
+<nav id="nav"></nav>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+  $('#nav').load('Navbar.html');
+</script>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12" style="align-content: center">
+      <h1 class="text-center">Vote on one of the memes below!</h1>
+      <p class="text-center">Select one of the images to vote</p>
+      <div class="text-center">
+        <button class= "btn btn-primary" id="voteButton">Vote</button>
       </div>
+      <hr />
+      <br />
     </div>
   </div>
+</div>
 
-  <div class="container">
-    <a id="voteTable"></a>
-    <a id="voteModal"></a>
-  </div>
-  <br />
+<div class="container">
+  <a id="voteTable"></a>
+  <a id="voteModal"></a>
+</div>
+<br />
 
-  <script>
+<script>
 
-    let voteData = [
-      {
-        "link": "https://i.pinimg.com/originals/df/c7/4b/dfc74b6867617fc8220fddb0efc9d916.jpg",
-        "id": "meme0",
-        "name": "Meme #1"
-      },
-      {
-        "link": "https://i.redd.it/j2ink51mnxz51.jpg",
-        "id": "meme1",
-        "name": "Meme #2"
-      },
-      {
-        "link": "https://c4.wallpaperflare.com/wallpaper/145/523/587/cute-anime-girl-wallpaper-preview.jpg",
-        "id": "meme2",
-        "name": "Meme #3"
-      },
-      {
-        "link": "https://i.pinimg.com/736x/49/e2/58/49e2589c9539258ade7d93709c7299fa.jpg",
-        "id": "meme3",
-        "name": "Meme #4"
-      },
-    ];
+  let voteData = [
+    {
+      "link": "https://i.pinimg.com/originals/df/c7/4b/dfc74b6867617fc8220fddb0efc9d916.jpg",
+      "id": "meme0",
+      "name": "Meme #1"
+    },
+    {
+      "link": "https://i.redd.it/j2ink51mnxz51.jpg",
+      "id": "meme1",
+      "name": "Meme #2"
+    },
+    {
+      "link": "https://c4.wallpaperflare.com/wallpaper/145/523/587/cute-anime-girl-wallpaper-preview.jpg",
+      "id": "meme2",
+      "name": "Meme #3"
+    },
+    {
+      "link": "https://i.pinimg.com/736x/49/e2/58/49e2589c9539258ade7d93709c7299fa.jpg",
+      "id": "meme3",
+      "name": "Meme #4"
+    },
+  ];
 
-    document.getElementById("voteTable").innerHTML = getHTMLTableString(voteData);
-    refreshSelection();
+  document.getElementById("voteTable").innerHTML = getHTMLTableString(voteData);
+  refreshSelection();
 
-    function getHTMLTableString(data) {
-      let rowCnt = 0; // 2 memes per row
-      let htmlString = "<table class=\"table\"><tr>";
+  function getHTMLTableString(data) {
+    let rowCnt = 0; // 2 memes per row
+    let htmlString = "<table class=\"table\"><tr>";
 
-      let htmlModalString = "";
-      for(let i=0; i<data.length; i++) {
+    let htmlModalString = "";
+    for(let i=0; i<data.length; i++) {
 
-        htmlString += "<td><div class=\"card\" id=\"" + data[i].id + "Border\">";
-        htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" " + "id= \"" + data[i].id + "\"" +
-                "style=\"width: 40vw; height: 50vh; margin-left: auto; margin-right: auto; object-fit: cover;\">";
-        htmlString += "</div>";
-        htmlString += "</td>";
-        rowCnt++;
-        htmlModalString += createModalHTMLString(data[i]);
-        if(rowCnt === 2) { // 3 memes per row
-          rowCnt = 0;
-          htmlString += "</tr>"; // close the row
-          if(i !== data.length-1) { // if this isnt the last item
-            htmlString += "<tr>"; // should create more rows
-          }
+      htmlString += "<td><div class=\"card\" id=\"" + data[i].id + "Border\">";
+      htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" " + "id= \"" + data[i].id + "\"" +
+              "style=\"width: 40vw; height: 50vh; margin-left: auto; margin-right: auto; object-fit: cover;\">";
+      htmlString += "</div>";
+      htmlString += "</td>";
+      rowCnt++;
+      htmlModalString += createModalHTMLString(data[i]);
+      if(rowCnt === 2) { // 3 memes per row
+        rowCnt = 0;
+        htmlString += "</tr>"; // close the row
+        if(i !== data.length-1) { // if this isnt the last item
+          htmlString += "<tr>"; // should create more rows
         }
       }
-      htmlString += "</table>";
-      htmlString += htmlModalString;
-      return htmlString;
     }
+    htmlString += "</table>";
+    htmlString += htmlModalString;
+    return htmlString;
+  }
 
-    function createModalHTMLString(meme) {
-      let res = "";
-      res += "<div class=\"modal fade\" id=\"" + meme.id + "Modal\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">";
-      res += "<div class=\"modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable\">";
-      res += "<div class=\"modal-content\">";
-      res += "<div class=\"modal-header\">";
-      res += "<h5 class=\"modal-title\" id=\"modalLabel\">" + meme.name + "</h5>";
-      res += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>";
-      res += "</div>";
-      res += "<div class=\"modal-body\" style=\"margin-left: auto; margin-right: auto;\">";
-      res += "<img src=\"" + meme.link + "\" class=\"img-fluid\">"
-      res += "</div>";
-      res += "</div>";
-      res += "</div>";
-      res += "</div>";
-      return res;
+  function createModalHTMLString(meme) {
+    let res = "";
+    res += "<div class=\"modal fade\" id=\"" + meme.id + "Modal\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">";
+    res += "<div class=\"modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable\">";
+    res += "<div class=\"modal-content\">";
+    res += "<div class=\"modal-header\">";
+    res += "<h5 class=\"modal-title\" id=\"modalLabel\">" + meme.name + "</h5>";
+    res += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>";
+    res += "</div>";
+    res += "<div class=\"modal-body\" style=\"margin-left: auto; margin-right: auto;\">";
+    res += "<img src=\"" + meme.link + "\" class=\"img-fluid\">"
+    res += "</div>";
+    res += "</div>";
+    res += "</div>";
+    res += "</div>";
+    return res;
+  }
+
+  var imageSelected = -1;
+  document.getElementById("voteButton").addEventListener("click", function () {
+    if(imageSelected !== -1) {
+      App.handleVote(imageSelected);
     }
+  });
 
-    var imageSelected = -1;
-    document.getElementById("voteButton").addEventListener("click", function () {
-      if(imageSelected !== -1) {
-        App.handleVote(imageSelected);
-      }
+  function refreshSelection() {
+    imageSelected = -1;
+
+    $('#voteButton').prop('disabled', true);
+
+    document.getElementById("meme0").addEventListener("click", function () {
+      imageSelected = 0;
+      console.log("single");
+      $('#voteButton').prop('disabled', false);
     });
 
-    function refreshSelection() {
-      imageSelected = -1;
+    document.getElementById("meme0").addEventListener("dblclick", function () {
+      $('#meme0Modal').modal('show');
+      imageSelected = 0 ;
+    });
 
-      $('#voteButton').prop('disabled', true);
+    document.getElementById("meme1").addEventListener("click", function () {
+      imageSelected = 1;
+      console.log("single");
+      $('#voteButton').prop('disabled', false);
+    });
 
-      document.getElementById("meme0").addEventListener("click", function () {
-        imageSelected = 0;
-        console.log("single");
-        $('#voteButton').prop('disabled', false);
-      });
+    document.getElementById("meme1").addEventListener("dblclick", function () {
+      $('#meme1Modal').modal('show');
+    });
 
-      document.getElementById("meme0").addEventListener("dblclick", function () {
-        $('#meme0Modal').modal('show');
-        imageSelected = 0 ;
-      });
+    document.getElementById("meme2").addEventListener("click", function () {
+      imageSelected = 2;
+      console.log("single");
+      $('#voteButton').prop('disabled', false);
+    });
 
-      document.getElementById("meme1").addEventListener("click", function () {
-        imageSelected = 1;
-        console.log("single");
-        $('#voteButton').prop('disabled', false);
-      });
+    document.getElementById("meme2").addEventListener("dblclick", function () {
+      $('#meme2Modal').modal('show');
+    });
 
-      document.getElementById("meme1").addEventListener("dblclick", function () {
-        $('#meme1Modal').modal('show');
-      });
+    document.getElementById("meme3").addEventListener("click", function () {
+      imageSelected = 3;
+      console.log("single");
+      $('#voteButton').prop('disabled', false);
+    });
 
-      document.getElementById("meme2").addEventListener("click", function () {
-        imageSelected = 2;
-        console.log("single");
-        $('#voteButton').prop('disabled', false);
-      });
+    document.getElementById("meme3").addEventListener("dblclick", function () {
+      $('#meme3Modal').modal('show');
+    });
 
-      document.getElementById("meme2").addEventListener("dblclick", function () {
-        $('#meme2Modal').modal('show');
-      });
-
-      document.getElementById("meme3").addEventListener("click", function () {
-        imageSelected = 3;
-        console.log("single");
-        $('#voteButton').prop('disabled', false);
-      });
-
-      document.getElementById("meme3").addEventListener("dblclick", function () {
-        $('#meme3Modal').modal('show');
-      });
-
-      document.getElementById("voteTable").addEventListener("click", function () {
-        let id = "#meme" + String(imageSelected) + "Border";
-        $(id).css({'border-color': '#0d6efd', 'border-width': 'medium'});
-        for(let otherImage=0; otherImage<4; otherImage++) {
-          if(otherImage !== imageSelected) {
-            let tmp = "#meme" + String(otherImage) + "Border";
-            $(tmp).css({'border-color': 'rgba(0, 0, 0, 0.125)', 'border-radius': '.25rem'});
-          }
+    document.getElementById("voteTable").addEventListener("click", function () {
+      let id = "#meme" + String(imageSelected) + "Border";
+      $(id).css({'border-color': '#0d6efd', 'border-width': 'medium'});
+      for(let otherImage=0; otherImage<4; otherImage++) {
+        if(otherImage !== imageSelected) {
+          let tmp = "#meme" + String(otherImage) + "Border";
+          $(tmp).css({'border-color': 'rgba(0, 0, 0, 0.125)', 'border-radius': '.25rem'});
         }
-      });
-    }
-  </script>
+      }
+    });
+  }
+</script>
 
 
 <script src="js/web3.min.js"></script>
