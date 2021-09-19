@@ -114,7 +114,7 @@ App = {
 
       // Load own meme shares
       userAssets = [];
-      const ownedShares = await instance.ownedShares.call();
+      const ownedShares = await instance.ownedShares.call({from: App.account});
       let i = 0;
       for (const idx of ownedShares) {
         meme = await instance.memes.call(idx.toString());
