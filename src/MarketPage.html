@@ -116,32 +116,7 @@
       "id": "sell4"
     }
   ];
-  let storeAssets = [
-    {
-      "link": "https://i.pinimg.com/originals/07/21/1b/07211b078ab5e9f537a3daeccef72279.jpg",
-      "name": "Anime pic 1",
-      "stats": "Buy for 1 meme coin?",
-      "id": "buy1"
-    },
-    {
-      "link": "https://c4.wallpaperflare.com/wallpaper/975/978/358/anime-rascal-does-not-dream-of-bunny-girl-senpai-wallpaper-preview.jpg",
-      "name": "Bunny girl senpai?",
-      "stats": "Buy for 69 meme coins?",
-      "id": "bunnygirl"
-    },
-    {
-      "link": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dfcf7c57-21f2-42e9-8b13-8a6588b0eb2b/ddvuwjw-06b14b4b-e676-4595-ba76-bde3ffd76b4f.png/v1/fill/w_1024,h_576,q_80,strp/bunny_girl_senpai_wallpaper_by_pixel1624_ddvuwjw-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvZGZjZjdjNTctMjFmMi00MmU5LThiMTMtOGE2NTg4YjBlYjJiXC9kZHZ1d2p3LTA2YjE0YjRiLWU2NzYtNDU5NS1iYTc2LWJkZTNmZmQ3NmI0Zi5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.2UgLBW7kTqetAgqVVtAzgA9jbf9vJMJD_eNqBveIKS4",
-      "name": "Anime pic 3",
-      "stats": "Buy for 3 meme coins?",
-      "id": "buy3"
-    },
-    {
-      "link": "https://wallpapercave.com/wp/wp7543782.jpg",
-      "name": "Anime pic 4",
-      "stats": "Buy for 42 meme coins?",
-      "id": "buy4"
-    }
-  ];
+  let storeAssets = [];
 
   function loadSellAssets() {
     console.log("load sell assets");
@@ -160,19 +135,24 @@
     for(let i=0; i<data.length; i++) {
       htmlString += "<td><div class=\"card\">";
       htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" style=\"width: 25vw; height: 25vw; margin-left: auto; margin-right: auto;object-fit: cover;\">";
-      htmlString += "<div class=\"card-body\">";
+      htmlString += "<div class=\"card-body\">";;
       htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
-      htmlString += "<p class=\"card-text\">" + data[i].stats + "</p>";
-      htmlString += "<div class=\"row mt-1\">";
       if(buyOrSell === "sell") {
-        htmlString += "<button class=\"btn btn-primary\" onclick=\"sell(\'" + data[i].id + "\')\">Sell</button>";
+        htmlString += "<p class=\"card-text\">" + data[i].amount + ' shares owned @' + data[i].price + 'M3M' + "</p>";
+      } else {
+        htmlString += "<p class=\"card-text\">" + data[i].amount + ' shares listed @' + data[i].price + 'M3M' + "</p>";
+      }
+      htmlString += '<div class="btn-toolbar-vertical" role="toolbar">';
+      htmlString += '<div class="btn-group d-flex" role="group">';
+      htmlString += '<input type="number" id="input' + i + '" value="' + data[i].amount +'" min="1" max="' + data[i].amount + '" step="1">';
+      if(buyOrSell === "sell") {
+        htmlString += "<button class=\"btn btn-primary w-100\" onclick=\"App.handleSell(\'" + i + "\')\">Sell</button>";
       }
       else {
-        htmlString += "<button class=\"btn btn-primary\" onclick=\"buy(\'" + data[i].id + "\')\">Buy</button>";
+        htmlString += "<button class=\"btn btn-primary\" onclick=\"App.handleBuy(\'" + i + "\')\">Buy</button>";
       }
       htmlString += "</div>";
-      htmlString += "<div class=\"row mt-1\">";
-      htmlString += "<button class=\"btn btn-secondary\" data-bs-toggle=\"modal\" data-bs-target=\"#" + data[i].id + "\">Open full image</button>";
+      htmlString += "<button class=\"btn btn-secondary mt-1 w-100\" data-bs-toggle=\"modal\" data-bs-target=\"#" + data[i].id + "\">Open full image</button>";
       htmlString += "</div>";
 
       htmlString += "</div>";

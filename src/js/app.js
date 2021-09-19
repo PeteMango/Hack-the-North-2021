@@ -82,9 +82,11 @@ App = {
         meme = await instance.memes.call(idx.toString());
         amountStaked = await instance.amountStaked.call(idx.toString());
         userAssets.push({
+          idx: idx.toString(),
           link: meme[1],
           name: 'Meme uwu',
-          stats: amountStaked + ' shares owned @ ' + web3.fromWei(meme[2].toString(), 'ether') + 'M3M',
+          amount: amountStaked,
+          price: web3.fromWei(Math.floor(meme[2].toString() / 100), 'ether'),
           id: 'sell' + i
         });
         i++;
@@ -93,21 +95,20 @@ App = {
 
       // Load shares for sale
       storeAssets = [];
-      const allUsers = await instance.allUsers.call();
-      for (const user of allUsers) {
-        const sharesForSale = await instance.uniqueSharesForSale.call(user);
-        i = 0;
-        for (const idx of sharesForSale) {
-          meme = await instance.memes.call(idx.toString());
-          amountForSale = await instance.amountForSale.call(idx.toString());
-          storeAssets.push({
-            link: meme[1],
-            name: 'Meme uwu',
-            stats: amountForSale + ' shares listed @ ' + web3.fromWei(meme[2].toString(), 'ether') + 'M3M',
-            id: 'buy' + i
-          });
-          i++;
-        }
+      const memesLength = await instance.memesLength.call();
+      i = 0
+      for (let j = 0; i < memesLength; j++) {
+        const meme = await instance.memes.call(i);
+        if (meme[3].toString() == "0") continue;
+        storeAssets.push({
+          idx: j,
+          link: meme[1],
+          name: 'Meme uwu',
+          amount: meme[3],
+          price: web3.fromWei(Math.floor(meme[2].toString() / 100), 'ether'),
+          id: 'buy' + i
+        });
+        i++;
       }
       loadBuyAssets();
 
@@ -161,6 +162,35 @@ App = {
       // Refresh voting options and balance
       await App.refreshBalance();
       await App.loadVotingOptions();
+    } catch(err) {
+      console.warn(err);
+    }
+  },
+
+  handleSell: async function(num) {
+    const amount = $('#input' + num).val();
+    console.log('Sold ' + amount + ' shares of meme #' + num);
+
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      await instance.sellShares(userAssets[num].idx, amount, {from: App.account});
+      await App.refreshBalance();
+      await App.loadAssets();
+    } catch(err) {
+      console.warn(err);
+    }
+  },
+
+  handleBuy: async function(num) {
+    console.log(num);
+    const amount = $('#input' + num).val();
+    console.log('Bought ' + amount + ' shares of meme #' + num);
+
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      await instance.buyShares(storeAssets[num].idx, amount, {from: App.account});
+      await App.refreshBalance();
+      await App.loadAssets();
     } catch(err) {
       console.warn(err);
     }

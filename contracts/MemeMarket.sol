@@ -6,6 +6,7 @@ contract MemeMarket {
         string image;
         uint256 price;
         uint[] history;
+        uint forSale;
     }
 
     struct Vote{
@@ -27,7 +28,6 @@ contract MemeMarket {
     mapping(address => bool) public voteExists;
     mapping(address => Vote) public lastVote;
     mapping(address => mapping(uint => uint)) public shares;
-    mapping(address => mapping(uint => uint)) public forSale;
 
     uint256 public initialPayment = 1e17;
     uint256 public voteValue = initialPayment/10;
@@ -38,7 +38,7 @@ contract MemeMarket {
         require(balances[msg.sender] >= initialPayment);
         balances[msg.sender] -= initialPayment;
         uint[] memory history;
-        Meme memory meme = Meme(msg.sender, image, initialPayment, history);
+        Meme memory meme = Meme(msg.sender, image, initialPayment, history, 0);
         memes.push(meme);
         validMemeIndices.push(memes.length-1);
         isValid.push(true);
@@ -61,13 +61,8 @@ contract MemeMarket {
     function sellShares(uint meme, uint amount) public {
         require(shares[msg.sender][meme] >= amount);
         shares[msg.sender][meme] -= amount;
-        forSale[msg.sender][meme] = max(forSale[msg.sender][meme]-amount,0);
+        memes[meme].forSale += amount;
         balances[msg.sender] += amount*(memes[meme].price/numShares);
-    }
-
-    function listShares(uint meme, uint amount) public {
-        require(shares[msg.sender][meme]-forSale[msg.sender][meme] >= amount);
-        forSale[msg.sender][meme] += amount;
     }
 
     function ownedShares() public returns (uint[] memory){
@@ -110,41 +105,17 @@ contract MemeMarket {
         return shares[msg.sender][meme];
     }
 
-    function amountForSale(address user, uint meme) public returns (uint) {
-        return forSale[user][meme];
-    }
-
-    function uniqueSharesForSale(address user) public returns (uint[] memory){
-        uint numForSaleShares = 0;
-        for(uint i=0;i<memes.length;i++){
-            if(forSale[user][i] > 0) {
-                numForSaleShares++;
-            }
-        }
-        uint[] memory shareIndices = new uint[](numForSaleShares);
-        uint v = 0;
-        for(uint i=0;i<memes.length;i++){
-            if(forSale[user][i] > 0) {
-                shareIndices[v] = i;
-                v++;
-            }
-        }
-        return shareIndices;
-    }
-
-    function allUsers() public returns (address[] memory) {
-        return users;
-    }
-
-    function buyShares(address seller, uint meme, uint amount) public {
-        require(forSale[seller][meme] >= amount);
+    function buyShares(uint meme, uint amount) public {
+        require(memes[meme].forSale >= amount);
         uint256 payOut = amount*(memes[meme].price/numShares);
         require(balances[msg.sender] >= payOut);
-        balances[seller] += payOut;
-        shares[seller][meme] -= amount;
-        forSale[seller][meme] -= amount;
+        memes[meme].forSale -= amount;
         balances[msg.sender] -= payOut;
         shares[msg.sender][meme] += amount;
+    }
+
+    function memesLength() public returns (uint) {
+        return memes.length;
     }
 
     function getVotingOptions() public returns (string memory a, string memory b, string memory c, string memory d){
