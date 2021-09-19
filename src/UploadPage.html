@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <!-- need this script for lightboxes-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+  <title>Upload Your Memes</title>
+
+</head>
+<style>
+  body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #8186a3;
+  }
+  
+  .container_foto {
+    background-color: rgba(57, 62, 93, 0.7);
+    padding: 0;
+    overflow: hidden;
+    max-width: 350px;
+    margin: 5px;
+  }
+
+  .container_foto img {
+    width: 100%;
+    top: 0;
+    left: 0;
+    -webkit-transition: all 4s ease;
+    -moz-transition: all 4s ease;
+    -o-transition: all 4s ease;
+    -ms-transition: all 4s ease;
+    transition: all 4s ease;
+  }
+
+  /*hovers*/
+  .container_foto:hover {
+    cursor: pointer;
+  }
+
+  .container_foto:hover img {
+    transform: scale(1.5);
+  }
+
+</style>
+
+<body>
+  <nav id="nav"></nav>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script>
+    $('#nav').load('Navbar.html');
+  </script>
+  <div class = "container">
+    <div class="row mt-2">
+      <section class="bg-primary text-light p-5">
+        <div class="container">
+          <div class="row mt-2">
+              <div class="text-center">
+                <h3>Upload your own meme!</h3>
+                <hr/>
+              </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-sm-4">
+              <h4>Link to your meme</h4>
+            </div>
+            <div class="col-sm-8">
+              <div class="input-group news-input">
+                <input id="memeurl" type="text" class="form-control" placeholder="https://media2.giphy.com/media/Ju7l5y9osyymQ/200.gif">
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-sm-4">
+              <h4 class="mb-3 mb-md-0">Title of your meme</h4>
+            </div>
+            <div class="col-sm-8">
+              <input id="memename" type="text" class="form-control" placeholder="Rick Roll">
+            </div>
+          </div>
+          <br />
+          <div style="float: right; text-align: right">
+            <h6>Upload cost: 0.1M3M</h6>
+            <button class="btn btn-dark btn-lg" onclick="App.handleUploadMeme()" type="button">Submit!</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="row mt-3">
+      <section class="bg-secondary text-light p-5">
+        <div class="container">
+          <div class="d-md-flex justify-content-between align-items-center">
+            <h3 class="mb-3 mb-md-0">Image Preview</h3>
+            <div class="card">
+              <div class="container_foto">
+                <img id="previewImage" src="https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg"
+                     class="img-thumbnail" style="width: 30vw; height: 60vh; object-fit: cover;">
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Preview Image</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" style="margin-right: auto; margin-left: auto">
+            <img id="previewModalImage" src="" alt="https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg"
+                 class="img-fluid" style="object-fit: cover;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+  </div>
+
+  <script>
+    document.getElementById("memeurl").addEventListener("input", function () {
+      let previewImagesrc = document.getElementById("memeurl").value;
+      if(!isImage(previewImagesrc)) { // if it doesnt load
+        console.log(previewImagesrc);
+        document.getElementById("previewImage").src = "https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg";
+        $('#previewImage').prop('disabled', true);
+      }
+      else {
+        $('#previewImage').prop('disabled', false);
+        document.getElementById("previewImage").src = previewImagesrc;
+        document.getElementById("previewModalImage").src = previewImagesrc;
+      }
+    });
+
+    document.getElementById("previewImage").addEventListener("click", function () {
+      let previewImagesrc = document.getElementById("memeurl").value;
+      if(isImage(previewImagesrc)) {
+        $('#previewModal').modal('show');
+      }
+    });
+
+    function isImage(url) {
+        let patterns = ["jpg", "gif", "png", "tiff", "jpeg", "bmp"];
+        for(let p in patterns) {
+          if (url.indexOf(p) !== -1) {
+            return true;
+          }
+        }
+        return (url.match(/\.(jpg|gif|png|tiff|jpeg|bmp)$/)!= null);
+    }
+  </script>
+
+
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
