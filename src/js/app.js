@@ -48,7 +48,9 @@ App = {
       App.refreshBalance();
       // Load memes if on voting page
       // Kind of a messy solution but works for now
-      if (window.location.pathname === '/VotePage.html') {
+      if (window.location.pathname === '/HomePage.html') {
+        return App.loadTrendData();
+      } else if (window.location.pathname === '/VotePage.html') {
         return App.loadVotingOptions();
       } else if (window.location.pathname === '/MarketPage.html') {
         return App.loadAssets();
@@ -62,6 +64,45 @@ App = {
       const balance = await instance.balances.call(App.account);
       console.log(web3.fromWei(balance, 'ether').toString());
       $('#balance').text('Balance: ' + web3.fromWei(balance, 'ether').toString() + 'M3M');
+    } catch(err) {
+      console.warn(err);
+    }
+  },
+
+  loadTrendData: async function() {
+    try {
+      const instance = await App.contracts.MemeMarket.deployed();
+      const memesLength = await instance.memesLength.call();
+      const memes = [];
+      trendData = [];
+      for (let i = 0; i < memesLength; i++) {
+        const meme = await instance.memes.call(i);
+        meme.push(i);
+        memes.push(meme);
+      }
+      memes.sort((a, b) => parseInt(a[3].toString()) > parseInt(b[3].toString()));
+      console.log(memes);
+
+      for (let i = 0; i < Math.min(memesLength, 10); i++) {
+        const meme = memes[i];
+        const priceHistory = await instance.priceHistory.call(meme[5])
+        const data = [];
+        let j = 0;
+        for (const price of priceHistory) {
+          data.push({ x: j, y : price });
+          j++;
+        }
+        trendData.push({
+          name: meme[1],
+          link: meme[2],
+          description: web3.fromWei(Math.floor(meme[3].toString() / 100), 'ether') + 'ETH per share',
+          stats: '',
+          id: 'trend' + i,
+          data: data
+        });
+      }
+
+      loadTrendingPage();
     } catch(err) {
       console.warn(err);
     }
