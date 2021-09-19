@@ -58,7 +58,28 @@
 
 <script>
 
-  let voteData = [];
+  let voteData = [
+    {
+      "link": "https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg",
+      "id": "meme0",
+      "name": "Meme #1"
+    },
+    {
+      "link": "https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg",
+      "id": "meme1",
+      "name": "Meme #2"
+    },
+    {
+      "link": "https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg",
+      "id": "meme2",
+      "name": "Meme #3"
+    },
+    {
+      "link": "https://sirencomms.com/wp-content/themes/massive-dynamic/assets/img/placeholders/placeholder1.jpg",
+      "id": "meme3",
+      "name": "Meme #4"
+    },
+  ];
 
   document.getElementById("voteTable").innerHTML = getHTMLTableString(voteData);
   refreshSelection();
