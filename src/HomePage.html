@@ -161,48 +161,55 @@
 
     }
 
+    var lastChart = null;
+
     function addChartJSRenders(data){
         for(let i=0; i<data.length; i++) {
             let meme = data[i];
-            let waitForVisibility = setInterval(() => {
-                if ($(`#img_${meme.id}`).width() !== 0) {
-                    let ctx = $(`#id_chart_${meme.id}`).get(0).getContext('2d');
-                    let imageWidth = $(`#img_${meme.id}`).width();
-                    ctx.canvas.width = imageWidth;
-                    ctx.canvas.height = imageWidth * (1 / 2);
-                    let myChart = new Chart(ctx, {
-                        type: 'scatter',
-                        data: {
-                            datasets: [{
-                                label: data[i].name,
-                                data: data[i].data,
-                                showLine: true,
-                                fill: false,
-                                borderColor: '#23c895',
-                                tension: 0.3,
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    title: {
-                                        display: true,
-                                        text: 'Meme Market Cap ($M3M)',
+            $(`#btn_${meme.id}`).on('click', () => {
+                let waitForVisibility = setInterval(() => {
+                    if ($(`#img_${meme.id}`).width() !== 0) {
+                        let ctx = $(`#id_chart_${meme.id}`).get(0).getContext('2d');
+                        let imageWidth = $(`#img_${meme.id}`).width();
+                        ctx.canvas.width = imageWidth;
+                        ctx.canvas.height = imageWidth * (1 / 2);
+                        if(lastChart != null){
+                            lastChart.destroy();
+                        }
+                        lastChart = new Chart(ctx, {
+                            type: 'scatter',
+                            data: {
+                                datasets: [{
+                                    label: data[i].name,
+                                    data: data[i].data,
+                                    showLine: true,
+                                    fill: false,
+                                    borderColor: '#23c895',
+                                    tension: 0.3,
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: 'Meme Market Cap ($M3M)',
+                                        },
+                                        beginAtZero: true,
                                     },
-                                    beginAtZero: true,
-                                },
-                                x:{
-                                    title: {
-                                        display: true,
-                                        text: 'Time',
+                                    x:{
+                                        title: {
+                                            display: true,
+                                            text: 'Time',
+                                        }
                                     }
                                 }
                             }
-                        }
-                    });
-                    clearInterval(waitForVisibility);
-                }
-            }, 10);
+                        });
+                        clearInterval(waitForVisibility);
+                    }
+                }, 10);
+            })
         }
     }
 
@@ -251,7 +258,7 @@
                         <div class="card-body">
                             <h5 class="card-title">${data[i].name}</h5>
                             <p class="card-text">${data[i].description}</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${data[i].id}">View</button>
+                            <button id="btn_${data[i].id}"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${data[i].id}">View</button>
                         </div>
                     </div>
                 </div>
