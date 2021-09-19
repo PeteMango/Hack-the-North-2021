@@ -39,6 +39,18 @@
     .tab button:hover {
         background-color: #ddd;
     }
+    .card{
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+        cursor: pointer;
+        padding: 12px 12px 12px 12px;
+    }
+    .card:hover{
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
 </style>
 <body>
 <nav id="nav"></nav>
@@ -53,16 +65,12 @@
 <div class="container">
     <div class="tab">
         <button class="tablink" onclick="openTab(event, 'trending')" id="defaultOpen">Trending</button>
-        <button class="tablink" onclick="openTab(event, 'profile')">Your Profile</button>
     </div>
 
     <div id="trending" class="tabcontent">
         <a id="trendPage"></a>
     </div>
 
-    <div id="profile" class="tabcontent">
-        <a id="profilePage"></a>
-    </div>
     <br />
 </div>
 
@@ -83,10 +91,6 @@
         if(tabName === "trending") {
             loadTrendingPage();
             document.getElementById("pageTitle").innerText = "Trending Memes";
-        }
-        else {
-            loadProfilePage();
-            document.getElementById("pageTitle").innerText = "Profile";
         }
     }
     let trendData = [
@@ -151,10 +155,6 @@
     function loadTrendingPage() {
         document.getElementById("trendPage").innerHTML = getHTMLGridString(trendData);
         addChartJSRenders(trendData);
-    }
-
-    function loadProfilePage() {
-
     }
 
     var lastChart = null;
@@ -232,8 +232,8 @@
                                 <h5 class="modal-title" id="modalLabel">${meme.name}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
-                            <div class="modal-body" style="margin-left: auto; margin-right: auto;">
-                                <img id="img_${meme.id}" src="${meme.link}" class="img-fluid" alt="">
+                            <div class="modal-body">
+                                <img id="img_${meme.id}" src="${meme.link}" class="img-fluid" alt="" style="object-fit: cover">
                                 <h5>Information</h5>
                                 <p>${meme.stats}</p>
                                 <canvas id="id_chart_${meme.id}"></canvas>
