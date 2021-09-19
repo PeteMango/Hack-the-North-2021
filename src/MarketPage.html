@@ -39,6 +39,54 @@
   .tab button:hover {
     background-color: #ddd;
   }
+  .container_foto {
+    background-color: rgba(57, 62, 93, 0.7);
+    padding: 0;
+    overflow: hidden;
+    margin: 5px;
+  }
+
+  .container_foto img {
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    -webkit-transition: all 3s ease;
+    -moz-transition: all 3s ease;
+    -o-transition: all 3s ease;
+    -ms-transition: all 3s ease;
+    transition: all 3s ease;
+  }
+
+  .card{
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    cursor: pointer;
+    padding: 12px 12px 12px 12px;
+  }
+
+  /*hovers*/
+  .container_foto:hover {
+    cursor: pointer;
+  }
+
+  .container_foto:hover img {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+
+
+  .container_foto:hover .ver_mas {
+    transform: translate(0px, 0px);
+    -webkit-transform: translate(0px, 0px);
+    -moz-transform: translate(0px, 0px);
+    -o-transform: translate(0px, 0px);
+    -ms-transform: translate(0px, 0px);
+    opacity: 1;
+  }
+
 </style>
 
 <body>
@@ -54,8 +102,8 @@
 <div class="container">
 
   <div class="tab">
-    <button class="tablink" onclick="openTab(event, 'buyPage')" id="defaultOpen">Buy</button>
-    <button class="tablink" onclick="openTab(event, 'sellPage')">Sell</button>
+    <button class="tablink" onclick="openTab(event, 'buyPage')" id="defaultOpen">Buy Memes</button>
+    <button class="tablink" onclick="openTab(event, 'sellPage')">Sell your Memes</button>
   </div>
 
   <div id="buyPage" class="tabcontent">
@@ -93,66 +141,66 @@
   let userAssets = [
     {
       idx: 0,
-      name: 'test',
-      link: 'https://static.wikia.nocookie.net/typemoon/images/3/3b/Rider_of_black.png/revision/latest?cb=20130819221006',
+      name: 'test 1',
+      link: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed615427-7cbf-44ce-9725-34fe84f49000/dd8w9ht-3342dcb6-daf3-4c56-8c85-0dbdd233901c.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2VkNjE1NDI3LTdjYmYtNDRjZS05NzI1LTM0ZmU4NGY0OTAwMFwvZGQ4dzlodC0zMzQyZGNiNi1kYWYzLTRjNTYtOGM4NS0wZGJkZDIzMzkwMWMuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Z5ytfS0qExv1ejp2Dg7-Md0odCfd2BRCXcun11lFvAo',
       amount: 69420,
       price: 0.001337,
-      id: 'sell0'
+      id: 'buy0'
     },
     {
       idx: 1,
-      name: 'test',
-      link: 'https://static.wikia.nocookie.net/typemoon/images/3/3b/Rider_of_black.png/revision/latest?cb=20130819221006',
+      name: 'test 2',
+      link: 'https://c4.wallpaperflare.com/wallpaper/295/163/719/anime-anime-boys-picture-in-picture-kimetsu-no-yaiba-kamado-tanjir%C5%8D-hd-wallpaper-preview.jpg',
       amount: 69420,
       price: 0.001337,
-      id: 'sell1'
+      id: 'buy1'
     },
     {
       idx: 2,
-      name: 'test',
-      link: 'https://static.wikia.nocookie.net/typemoon/images/3/3b/Rider_of_black.png/revision/latest?cb=20130819221006',
+      name: 'test 3',
+      link: 'https://p4.wallpaperbetter.com/wallpaper/239/52/978/kimetsu-no-yaiba-anime-anime-girls-kochou-shinobu-hd-wallpaper-preview.jpg',
       amount: 69420,
       price: 0.001337,
-      id: 'sell2'
+      id: 'buy2'
     },
     {
       idx: 3,
-      name: 'test',
-      link: 'https://static.wikia.nocookie.net/typemoon/images/3/3b/Rider_of_black.png/revision/latest?cb=20130819221006',
+      name: 'test 4',
+      link: 'https://wallpaperbat.com/img/114631-cute-anime-wallpaper-iphone-hd-wallpaper.jpg',
       amount: 69420,
       price: 0.001337,
-      id: 'sell3'
+      id: 'buy3'
     }
   ];
   let storeAssets = [
     {
       idx: 0,
-      name: 'test',
-      link: 'https://static.wikia.nocookie.net/typemoon/images/3/3b/Rider_of_black.png/revision/latest?cb=20130819221006',
+      name: 'test 1',
+      link: 'https://images-cdn.9gag.com/photo/aqKgyGY_700b.jpg',
       amount: 69420,
       price: 0.001337,
       id: 'sell0'
     },
     {
       idx: 1,
-      name: 'test',
-      link: 'https://static.wikia.nocookie.net/typemoon/images/3/3b/Rider_of_black.png/revision/latest?cb=20130819221006',
+      name: 'test 2',
+      link: 'https://papers.co/wallpaper/papers.co-bj10-art-girl-face-smile-cute-anime-35-3840x2160-4k-wallpaper.jpg',
       amount: 69420,
       price: 0.001337,
       id: 'sell1'
     },
     {
       idx: 2,
-      name: 'test',
-      link: 'https://static.wikia.nocookie.net/typemoon/images/3/3b/Rider_of_black.png/revision/latest?cb=20130819221006',
+      name: 'test 3',
+      link: 'https://i.pinimg.com/originals/0a/ec/ae/0aecae65e9c73f438c2c77120067ce29.jpg',
       amount: 69420,
       price: 0.001337,
       id: 'sell2'
     },
     {
       idx: 3,
-      name: 'test',
-      link: 'https://static.wikia.nocookie.net/typemoon/images/3/3b/Rider_of_black.png/revision/latest?cb=20130819221006',
+      name: 'test 4',
+      link: 'https://i.pinimg.com/736x/c8/bd/a9/c8bda99ff35a1aca879a77d8dfb84dd2.jpg',
       amount: 69420,
       price: 0.001337,
       id: 'sell3'
@@ -174,10 +222,13 @@
 
     let htmlModalString = "";
     for(let i=0; i<data.length; i++) {
-      htmlString += "<td><div class=\"card\">";
+      htmlString += "<td>";
+      htmlString += "<div class=\"card\">";
+      htmlString += "<div class=\"container_foto\">";
       htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" style=\"width: 25vw; height: 25vw; margin-left: auto; margin-right: auto;object-fit: cover;\">";
-      htmlString += "<div class=\"card-body\">";;
-      // This is very easy to exploit with injection :)
+      htmlString += "</div>";
+      htmlString += "<div class=\"card-body\">";
+      // This is very easy to exploit with injection :) yep but we demo it
       htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
       if(buyOrSell === "sell") {
         htmlString += "<p class=\"card-text\">" + data[i].amount + ' shares owned @' + data[i].price + 'M3M' + "</p>";
@@ -227,7 +278,7 @@
     res += "<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>";
     res += "</div>";
     res += "<div class=\"modal-body\" style=\"margin-left: auto; margin-right: auto;\">";
-    res += "<img src=\"" + meme.link + "\" class=\"img-fluid\">"
+    res += "<img src=\"" + meme.link + "\" class=\"img-fluid\" style=\"width: 50vw; height: 40vh object-fit: cover;\">";
     res += "</div>";
     res += "</div>";
     res += "</div>";
