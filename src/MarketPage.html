@@ -39,24 +39,6 @@
   .tab button:hover {
     background-color: #ddd;
   }
-  .container_foto {
-    background-color: rgba(57, 62, 93, 0.7);
-    padding: 0;
-    overflow: hidden;
-    margin: 5px;
-  }
-
-  .container_foto img {
-    width: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0.8;
-    -webkit-transition: all 3s ease;
-    -moz-transition: all 3s ease;
-    -o-transition: all 3s ease;
-    -ms-transition: all 3s ease;
-    transition: all 3s ease;
-  }
 
   .card{
     border-radius: 4px;
@@ -66,25 +48,9 @@
     cursor: pointer;
     padding: 12px 12px 12px 12px;
   }
-
-  /*hovers*/
-  .container_foto:hover {
-    cursor: pointer;
-  }
-
-  .container_foto:hover img {
-    opacity: 0.5;
-    transform: scale(1.5);
-  }
-
-
-  .container_foto:hover .ver_mas {
-    transform: translate(0px, 0px);
-    -webkit-transform: translate(0px, 0px);
-    -moz-transform: translate(0px, 0px);
-    -o-transform: translate(0px, 0px);
-    -ms-transform: translate(0px, 0px);
-    opacity: 1;
+  .card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
   }
 
 </style>
