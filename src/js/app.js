@@ -172,6 +172,7 @@ App = {
     try {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.deposit({from: App.account, value: web3.toWei(amount, 'ether') });
+      await App.refreshBalance();
     } catch(err) {
       console.warn(err);
     }
@@ -183,6 +184,7 @@ App = {
     try {
       const instance = await App.contracts.MemeMarket.deployed();
       await instance.withdraw(web3.toWei(amount, 'ether'), {from: App.account});
+      await App.refreshBalance();
     } catch(err) {
       console.warn(err);
     }
