@@ -83,7 +83,7 @@ App = {
       memes.sort((a, b) => parseInt(a[3].toString()) > parseInt(b[3].toString()));
       console.log(memes);
 
-      for (let i = 0; i < Math.min(memesLength, 10); i++) {
+      for (let i = Math.min(memesLength, 10) - 1; i >= 0; i--) {
         const meme = memes[i];
         const priceHistory = await instance.priceHistory.call(meme[5])
         const data = [];
