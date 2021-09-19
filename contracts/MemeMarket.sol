@@ -3,6 +3,7 @@ pragma solidity 0.5.16;
 contract MemeMarket {
     struct Meme{
         address author;
+        string name;
         string image;
         uint256 price;
         uint[] history;
@@ -34,11 +35,11 @@ contract MemeMarket {
     uint256 public voterPayout = voteValue/100;
     uint256 public numShares = 100;
 
-    function uploadMeme(string memory image) public {
+    function uploadMeme(string memory name, string memory image) public {
         require(balances[msg.sender] >= initialPayment);
         balances[msg.sender] -= initialPayment;
         uint[] memory history;
-        Meme memory meme = Meme(msg.sender, image, initialPayment, history, 0);
+        Meme memory meme = Meme(msg.sender, name, image, initialPayment, history, 0);
         memes.push(meme);
         validMemeIndices.push(memes.length-1);
         isValid.push(true);

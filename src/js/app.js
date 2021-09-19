@@ -83,10 +83,10 @@ App = {
         amountStaked = await instance.amountStaked.call(idx.toString());
         userAssets.push({
           idx: idx.toString(),
-          link: meme[1],
-          name: 'Meme uwu',
+          name: meme[1],
+          link: meme[2],
           amount: amountStaked,
-          price: web3.fromWei(Math.floor(meme[2].toString() / 100), 'ether'),
+          price: web3.fromWei(Math.floor(meme[3].toString() / 100), 'ether'),
           id: 'sell' + i
         });
         i++;
@@ -99,13 +99,13 @@ App = {
       i = 0
       for (let j = 0; i < memesLength; j++) {
         const meme = await instance.memes.call(i);
-        if (meme[3].toString() == "0") continue;
+        if (meme[4].toString() == "0") continue;
         storeAssets.push({
           idx: j,
-          link: meme[1],
-          name: 'Meme uwu',
-          amount: meme[3],
-          price: web3.fromWei(Math.floor(meme[2].toString() / 100), 'ether'),
+          name: meme[1],
+          link: meme[2],
+          amount: meme[4],
+          price: web3.fromWei(Math.floor(meme[3].toString() / 100), 'ether'),
           id: 'buy' + i
         });
         i++;
@@ -137,7 +137,8 @@ App = {
 
   handleUploadMeme: async function() {
     console.log('Submit clicked');
-    var memeurl = $('#memeurl').val();
+    const memeurl = $('#memeurl').val();
+    const memename = $('#memename').val();
     if (memeurl.substr(0, 8) != "https://") {
       window.alert("Sorry, please enter a link with https://")
       return;
@@ -145,7 +146,7 @@ App = {
 
     try {
       const instance = await App.contracts.MemeMarket.deployed();
-      await instance.uploadMeme(memeurl, {from: App.account});
+      await instance.uploadMeme(memename, memeurl, {from: App.account});
       await App.refreshBalance();
       window.alert("Your meme has been submitted!")
     } catch(err) {

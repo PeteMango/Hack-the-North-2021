@@ -90,32 +90,7 @@
       loadSellAssets();
     }
   }
-  let userAssets = [
-    {
-      "link": "https://external-preview.redd.it/dDTWYqducJ5-jAQJnV_2-A-QkbtOLu9iTL2rnYXvHSU.jpg?auto=webp&s=955a0cdcda696bded0527a73731a811b9fcb08a5",
-      "name": "Anime pic 1",
-      "stats": "Can be sold for 1 meme coin!!!",
-      "id": "sell1"
-    },
-    {
-      "link": "https://wallpaperaccess.com/full/434982.jpg",
-      "name": "Anime pic 2",
-      "stats": "Can be sold for 2 meme coins!!!",
-      "id": "sell2"
-    },
-    {
-      "link": "https://lh3.googleusercontent.com/proxy/jr5zSmlxa5yIFprAmslhKOR1EBzorrimj7ZtKGZE8Wi2XZgEn0C-CIjKC5tMglq38tDv5BMLW69cO-CoaxlkMMZVupF28b7ZFnAcCcWcikq1mLKXZGTtxPU1uF_E-rHYi6zqY2c2abE",
-      "name": "Anime pic 3",
-      "stats": "Can be sold for 3 meme coins!!!",
-      "id": "sell3"
-    },
-    {
-      "link": "https://www.wallpaperup.com/uploads/wallpapers/2016/10/07/1023575/7d0b5ddd96531b2e7abd5d84a7e6a40e-700.jpg",
-      "name": "Anime pic 4",
-      "stats": "Can be sold for 4 meme coins!!!",
-      "id": "sell4"
-    }
-  ];
+  let userAssets = [];
   let storeAssets = [];
 
   function loadSellAssets() {
@@ -136,6 +111,7 @@
       htmlString += "<td><div class=\"card\">";
       htmlString += "<img src=\"" + data[i].link + "\" class=\"img-fluid\" style=\"width: 25vw; height: 25vw; margin-left: auto; margin-right: auto;object-fit: cover;\">";
       htmlString += "<div class=\"card-body\">";;
+      // This is very easy to exploit with injection :)
       htmlString += "<h5 class=\"card-title\">" + data[i].name + "</h5>";
       if(buyOrSell === "sell") {
         htmlString += "<p class=\"card-text\">" + data[i].amount + ' shares owned @' + data[i].price + 'M3M' + "</p>";
